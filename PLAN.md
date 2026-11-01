@@ -157,12 +157,12 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 
 ### Phase 2: Design system
 
-- [ ] shadcn/ui primitives (button, card, badge, input, label, textarea, skeleton, separator, progress, slider, tabs, dropdown menu)
-- [ ] Theme tokens (light/dark), `next-themes` toggle, focus rings, skip link
-- [ ] App shell: responsive header with mobile menu, footer
-- [ ] Error boundaries (`error.tsx`, `global-error.tsx`), `not-found.tsx`, loading skeletons
-- [ ] SEO: metadata template, Open Graph, `sitemap.ts`, `robots.ts`, `manifest.ts`
-- [ ] Landing page
+- [x] shadcn/ui primitives (button, card, badge, input, label, textarea, skeleton, separator, progress, slider, tabs, dropdown menu, sheet)
+- [x] Theme tokens (light/dark), `next-themes` toggle, focus rings, skip link
+- [x] App shell: responsive header with mobile menu, footer
+- [x] Error boundaries (`error.tsx`, `global-error.tsx`), `not-found.tsx`, loading skeletons
+- [x] SEO: metadata template, Open Graph, `sitemap.ts`, `robots.ts`, `manifest.ts`
+- [x] Landing page
 
 ### Phase 3: Database
 
