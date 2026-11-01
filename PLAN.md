@@ -26,22 +26,22 @@ Browser ──► Next.js 15 App Router (React 19, RSC)
 
 ### Key decisions
 
-| Concern | Choice | Why |
-| --- | --- | --- |
-| Framework | Next.js 15 App Router, TypeScript `strict` | RSC for fast lesson pages, server actions for writes |
-| Styling | Tailwind CSS v4 + shadcn/ui (Radix primitives) | Accessible primitives, design tokens as CSS variables |
-| Motion | Framer Motion (`motion`) with `prefers-reduced-motion` respected | Smooth visualizers without breaking a11y |
-| State | Zustand for persisted user preferences; pure reducers for visualizer playback | Playback logic stays pure and unit-testable |
-| Content | MDX in `/content`, compiled with `next-mdx-remote/rsc`, frontmatter validated by Zod | Authors write Markdown; components are reusable |
-| Code highlighting | Shiki (server side, dual light/dark theme) | Zero client JS for static code |
-| Auth | NextAuth v5 (Auth.js) + Prisma adapter, JWT sessions | Credentials work with no external keys; GitHub/Google enable automatically when env vars exist |
-| DB | PostgreSQL + Prisma 6 | Relational progress data, migrations, typed client |
-| Validation | Zod everywhere: env, frontmatter, problem/quiz JSON, forms, server actions | One validation library across the stack |
-| Editor (later) | Monaco, code runs in a Web Worker (JS) / Pyodide (Python) | No server-side code execution needed |
-| Canvas (later) | React Flow | System design studio |
-| AI (later) | `AIProvider` interface + `DisabledProvider`, gated by `FEATURE_AI_MOCK=false` | Ships with no API key; Claude can be swapped in via one file |
-| Tests | Vitest + Testing Library (unit/component), Playwright + axe (e2e, a11y) | Fast unit loop, real-browser checks |
-| CI | GitHub Actions with a Postgres service | Lint, typecheck, unit, migrate, build, e2e on every PR |
+| Concern           | Choice                                                                               | Why                                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Framework         | Next.js 15 App Router, TypeScript `strict`                                           | RSC for fast lesson pages, server actions for writes                                           |
+| Styling           | Tailwind CSS v4 + shadcn/ui (Radix primitives)                                       | Accessible primitives, design tokens as CSS variables                                          |
+| Motion            | Framer Motion (`motion`) with `prefers-reduced-motion` respected                     | Smooth visualizers without breaking a11y                                                       |
+| State             | Zustand for persisted user preferences; pure reducers for visualizer playback        | Playback logic stays pure and unit-testable                                                    |
+| Content           | MDX in `/content`, compiled with `next-mdx-remote/rsc`, frontmatter validated by Zod | Authors write Markdown; components are reusable                                                |
+| Code highlighting | Shiki (server side, dual light/dark theme)                                           | Zero client JS for static code                                                                 |
+| Auth              | NextAuth v5 (Auth.js) + Prisma adapter, JWT sessions                                 | Credentials work with no external keys; GitHub/Google enable automatically when env vars exist |
+| DB                | PostgreSQL + Prisma 6                                                                | Relational progress data, migrations, typed client                                             |
+| Validation        | Zod everywhere: env, frontmatter, problem/quiz JSON, forms, server actions           | One validation library across the stack                                                        |
+| Editor (later)    | Monaco, code runs in a Web Worker (JS) / Pyodide (Python)                            | No server-side code execution needed                                                           |
+| Canvas (later)    | React Flow                                                                           | System design studio                                                                           |
+| AI (later)        | `AIProvider` interface + `DisabledProvider`, gated by `FEATURE_AI_MOCK=false`        | Ships with no API key; Claude can be swapped in via one file                                   |
+| Tests             | Vitest + Testing Library (unit/component), Playwright + axe (e2e, a11y)              | Fast unit loop, real-browser checks                                                            |
+| CI                | GitHub Actions with a Postgres service                                               | Lint, typecheck, unit, migrate, build, e2e on every PR                                         |
 
 ### Visualizer architecture
 
@@ -142,18 +142,21 @@ Indexes: `XpEvent(userId, createdAt)`, `ReviewItem(userId, dueAt)`, `ProblemSubm
 Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (and e2e where relevant), fix, tick, commit.
 
 ### Phase 0: Plan
+
 - [x] Add curriculum to `docs/CURRICULUM.md`
 - [x] Write `PLAN.md` (architecture, schema, folders, checklist)
 
 ### Phase 1: Project setup
-- [ ] Next.js 15 + React 19 + TypeScript strict (`noUncheckedIndexedAccess`)
-- [ ] Tailwind v4, ESLint (next + typescript), Prettier
-- [ ] Env validation with Zod (`src/env.ts`), `.env.example`
-- [ ] Vitest + Testing Library + jsdom
-- [ ] Playwright + axe-core
-- [ ] GitHub Actions CI (lint, typecheck, unit, migrate, build, e2e)
+
+- [x] Next.js 15 + React 19 + TypeScript strict (`noUncheckedIndexedAccess`)
+- [x] Tailwind v4, ESLint (next + typescript), Prettier
+- [x] Env validation with Zod (`src/env.ts`), `.env.example`
+- [x] Vitest + Testing Library + jsdom
+- [x] Playwright + axe-core
+- [x] GitHub Actions CI (lint, typecheck, unit, migrate, build, e2e)
 
 ### Phase 2: Design system
+
 - [ ] shadcn/ui primitives (button, card, badge, input, label, textarea, skeleton, separator, progress, slider, tabs, dropdown menu)
 - [ ] Theme tokens (light/dark), `next-themes` toggle, focus rings, skip link
 - [ ] App shell: responsive header with mobile menu, footer
@@ -162,11 +165,13 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 - [ ] Landing page
 
 ### Phase 3: Database
+
 - [ ] Prisma schema (all models above) + initial migration
 - [ ] Prisma client singleton, seed script (demo user)
 - [ ] `/api/health` checks DB connectivity
 
 ### Phase 4: Auth and profiles
+
 - [ ] NextAuth v5 with Prisma adapter, JWT sessions, edge-safe `auth.config.ts`
 - [ ] Credentials sign-up/sign-in (bcrypt, Zod), GitHub/Google auto-enabled when env vars exist
 - [ ] Middleware protecting `/profile` and `/dashboard`
@@ -174,6 +179,7 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 - [ ] Profile page: edit name, username, bio, daily goal (server action + Zod)
 
 ### Phase 5: Lesson engine
+
 - [ ] Zod schemas: lesson frontmatter, problem JSON, quiz JSON
 - [ ] Content loader (discover, parse, validate, cache, tree by track/module)
 - [ ] MDX compiler with component map
@@ -183,6 +189,7 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 - [ ] "Mark complete" server action awarding XP idempotently (signed-in users)
 
 ### Phase 6: Stack visualizer (reference visualizer)
+
 - [ ] Pure engine `buildStackFrames` with unit tests (push, pop, peek, empty-pop error frame)
 - [ ] Generic player: play, pause, step, back, reset, speed, scrubber
 - [ ] Keyboard: Space play/pause, ←/→ step, Home reset, End jump to last, +/- speed
@@ -193,35 +200,42 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 **Foundation stops here.**
 
 ### Phase 7: Content scaffolding and roadmap
+
 - [ ] Generate `.mdx` stubs (status: draft) for every chapter in `docs/CURRICULUM.md`
 - [ ] Fully write 7.1 Binary Search and 10.2 BFS
 - [ ] Roadmap page: tracks, modules, prerequisites, lock/unlock, progress rings, Coming soon labels
 
 ### Phase 8: Remaining visualizers
+
 - [ ] Queue, linked list, hash map, binary search, trees (traversals, BST), graphs (BFS/DFS), sorting (bubble, selection, insertion, merge, quick)
 
 ### Phase 9: Pattern practice
+
 - [ ] 15 pattern pages with clue cards and template code
 - [ ] Problem page with Monaco editor, test runner in a Web Worker (JS) and Pyodide (Python)
 - [ ] Progressive hints, solution reveal, submissions saved
 
 ### Phase 10: System design studio
+
 - [ ] Restaurant-analogy lessons (Track 3 Part A)
 - [ ] React Flow canvas with component palette, saved boards
 - [ ] Static checklists, self-review rubrics and model answers per case study
 
 ### Phase 11: AI Mock Interview (Coming Soon)
+
 - [ ] `/mock-interview` page: Coming soon badge, sample chat, sample scorecard
 - [ ] Waitlist form (server action + Zod) saved to `WaitlistEntry`
 - [ ] `src/lib/ai/provider.ts`: `AIProvider` (askFollowUp, scoreAnswer, reviewDesign) + `DisabledProvider`, gated by `FEATURE_AI_MOCK`
 
 ### Phase 12: Progress and gamification
+
 - [ ] XP rules (chapter 40, problems 20/40/80, quiz 15, streak bonus 10)
 - [ ] Streaks, daily goals, badges
 - [ ] Spaced repetition (1, 3, 7, 21 days) review queue
 - [ ] Dashboard
 
 ### Phase 13: Quality hardening
+
 - [ ] Lighthouse 90+ on key pages (CI budget), bundle analysis
 - [ ] Full WCAG AA audit, screen reader pass on every visualizer
 - [ ] Rate limiting on auth and waitlist actions
