@@ -11,6 +11,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: ["radix-ui", "lucide-react"],
+  },
   outputFileTracingIncludes: {
     "/learn/**": ["./content/**/*"],
   },

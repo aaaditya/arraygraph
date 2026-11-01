@@ -27,8 +27,9 @@ test.describe("authentication", () => {
     await page.getByLabel("Password").fill("plates123");
     await page.getByRole("button", { name: "Create account" }).click();
 
-    await expect(page).toHaveURL(/\/profile$/);
+    await page.waitForURL((url) => url.pathname === "/profile");
     await expect(page.getByRole("heading", { name: "Your profile" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open account menu" })).toBeVisible();
 
     await page.getByLabel("Name", { exact: true }).fill("Asha Priya Rao");
     await page.getByLabel("Bio").fill("Chai and code.");
@@ -39,7 +40,7 @@ test.describe("authentication", () => {
 
     await page.getByRole("button", { name: "Open account menu" }).click();
     await page.getByRole("menuitem", { name: "Sign out" }).click();
-    await expect(page).toHaveURL(/\/$/);
+    await page.waitForURL((url) => url.pathname === "/");
     await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
 
     await page.goto("/signin?callbackUrl=/profile");
@@ -47,10 +48,12 @@ test.describe("authentication", () => {
     await page.getByLabel("Password").fill("wrong-pass1");
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page.getByText("do not match")).toBeVisible();
+    await expect(page.getByLabel("Email")).toHaveValue(email);
 
     await page.getByLabel("Password").fill("plates123");
     await page.getByRole("button", { name: "Sign in" }).click();
-    await expect(page).toHaveURL(/\/profile$/);
+    await page.waitForURL((url) => url.pathname === "/profile");
+    await expect(page.getByRole("button", { name: "Open account menu" })).toBeVisible();
   });
 
   test("duplicate email is rejected", async ({ page }) => {

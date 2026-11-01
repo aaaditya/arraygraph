@@ -15,13 +15,18 @@ import {
 import { db } from "@/lib/db";
 import { z } from "zod";
 
+function echo(formData: FormData, fields: string[]): Record<string, string> {
+  return Object.fromEntries(fields.map((field) => [field, String(formData.get(field) ?? "")]));
+}
+
 export async function signInAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const values = echo(formData, ["email"]);
   const parsed = signInSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
   if (!parsed.success) {
-    return { fieldErrors: z.flattenError(parsed.error).fieldErrors };
+    return { values, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
   try {
     await signIn("credentials", {
@@ -31,20 +36,21 @@ export async function signInAction(_prev: FormState, formData: FormData): Promis
     return { ok: true };
   } catch (error) {
     if (error instanceof AuthError) {
-      return { message: "That email and password do not match. Try again." };
+      return { values, message: "That email and password do not match. Try again." };
     }
     throw error;
   }
 }
 
 export async function signUpAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const values = echo(formData, ["name", "email"]);
   const parsed = signUpSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
   });
   if (!parsed.success) {
-    return { fieldErrors: z.flattenError(parsed.error).fieldErrors };
+    return { values, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
 
   const { name, email, password } = parsed.data;
@@ -54,7 +60,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      return { fieldErrors: { email: ["An account with this email already exists"] } };
+      return { values, fieldErrors: { email: ["An account with this email already exists"] } };
     }
     throw error;
   }
@@ -68,7 +74,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     return { ok: true };
   } catch (error) {
     if (error instanceof AuthError) {
-      return { message: "Account created, but we could not sign you in. Please sign in." };
+      return { values, message: "Account created, but we could not sign you in. Please sign in." };
     }
     throw error;
   }
@@ -87,6 +93,7 @@ export async function updateProfileAction(
   const session = await auth();
   if (!session?.user?.id) return { message: "Please sign in again." };
 
+  const values = echo(formData, ["name", "username", "bio", "dailyGoalXp"]);
   const parsed = profileSchema.safeParse({
     name: formData.get("name"),
     username: formData.get("username") ?? "",
@@ -94,18 +101,18 @@ export async function updateProfileAction(
     dailyGoalXp: formData.get("dailyGoalXp"),
   });
   if (!parsed.success) {
-    return { fieldErrors: z.flattenError(parsed.error).fieldErrors };
+    return { values, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
 
   try {
     await db.user.update({ where: { id: session.user.id }, data: parsed.data });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      return { fieldErrors: { username: ["That username is taken"] } };
+      return { values, fieldErrors: { username: ["That username is taken"] } };
     }
     throw error;
   }
 
   revalidatePath("/profile");
-  return { ok: true, message: "Profile saved." };
+  return { ok: true, values, message: "Profile saved." };
 }

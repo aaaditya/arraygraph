@@ -1,0 +1,200 @@
+---
+slug: stack-basics
+track: dsa-core
+module: stacks-queues
+chapter: '5.1'
+title: 'Stack: The Pile of Plates'
+summary: 'Learn the stack data structure with a pile of plates: push, pop, peek, LIFO order and O(1) operations.'
+level: beginner
+minutes: 12
+status: ready
+prerequisites: [arrays-basics]
+patterns: [monotonic-stack]
+xp: 40
+analogy: pile of plates
+tags: [stack, lifo, push, pop]
+---
+
+## What you will learn
+- What a stack is, using a pile of plates.
+- The three moves: **push**, **pop** and **peek**.
+- Why every move takes the same tiny amount of time.
+
+## The story
+<Analogy emoji='🍽️' title='Pile of plates at a wedding'>
+At a wedding buffet, clean plates sit in one tall pile.
+The helper puts each washed plate **on top**. That is a **push**.
+A guest always takes the plate **from the top**. That is a **pop**.
+Nobody pulls a plate from the middle. The pile would crash!
+Looking at the top plate without taking it is a **peek**.
+The last plate put down is the first one picked up. We call this **LIFO**: Last In, First Out.
+</Analogy>
+
+Your browser's back button works the same way. So does undo in a text editor.
+
+## See it move
+Press play, or use the arrow keys to step. Watch the highlighted line on the right.
+
+<Visualizer type='stack' initial={[3, 7]} ops={['push 5', 'peek', 'pop', 'push 9', 'pop', 'pop', 'pop', 'pop']} showPseudocode />
+
+Notice the last step. Popping an empty pile is a mistake. Good code checks first.
+
+## Do it by hand
+<Trace title='Trace this' input='push 1, push 2, pop, push 3' answer='[1, 3]' answerLabel='What is in the stack at the end? (bottom to top)' hint='Draw a box for each plate. Cross out the top one on every pop.' />
+
+## Now the code
+A list (or array) makes a perfect pile. Its end is the top of the stack.
+
+<CodeTabs
+python={`class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, value):
+        self.items.append(value)      # put a plate on top
+
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self.items.pop()       # take the top plate
+
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek at empty stack")
+        return self.items[-1]         # look, do not take
+
+    def is_empty(self):
+        return len(self.items) == 0`}
+javascript={`class Stack {
+  #items = [];
+
+  push(value) {
+    this.#items.push(value); // put a plate on top
+  }
+
+  pop() {
+    if (this.isEmpty()) throw new Error("pop from empty stack");
+    return this.#items.pop(); // take the top plate
+  }
+
+  peek() {
+    if (this.isEmpty()) throw new Error("peek at empty stack");
+    return this.#items[this.#items.length - 1]; // look, do not take
+  }
+
+  isEmpty() {
+    return this.#items.length === 0;
+  }
+}`}
+java={`import java.util.ArrayList;
+import java.util.EmptyStackException;
+
+class Stack<T> {
+    private final ArrayList<T> items = new ArrayList<>();
+
+    void push(T value) {
+        items.add(value); // put a plate on top
+    }
+
+    T pop() {
+        if (isEmpty()) throw new EmptyStackException();
+        return items.remove(items.size() - 1); // take the top plate
+    }
+
+    T peek() {
+        if (isEmpty()) throw new EmptyStackException();
+        return items.get(items.size() - 1); // look, do not take
+    }
+
+    boolean isEmpty() {
+        return items.isEmpty();
+    }
+}`}
+cpp={`#include <stdexcept>
+#include <vector>
+
+template <typename T>
+class Stack {
+    std::vector<T> items;
+
+public:
+    void push(const T& value) {
+        items.push_back(value); // put a plate on top
+    }
+
+    T pop() {
+        if (isEmpty()) throw std::out_of_range("pop from empty stack");
+        T top = items.back();
+        items.pop_back(); // take the top plate
+        return top;
+    }
+
+    const T& peek() const {
+        if (isEmpty()) throw std::out_of_range("peek at empty stack");
+        return items.back(); // look, do not take
+    }
+
+    bool isEmpty() const { return items.empty(); }
+};`}
+csharp={`using System;
+using System.Collections.Generic;
+
+class Stack<T>
+{
+    private readonly List<T> items = new();
+
+    public void Push(T value) => items.Add(value); // put a plate on top
+
+    public T Pop()
+    {
+        if (IsEmpty()) throw new InvalidOperationException("pop from empty stack");
+        T top = items[^1];
+        items.RemoveAt(items.Count - 1); // take the top plate
+        return top;
+    }
+
+    public T Peek()
+    {
+        if (IsEmpty()) throw new InvalidOperationException("peek at empty stack");
+        return items[^1]; // look, do not take
+    }
+
+    public bool IsEmpty() => items.Count == 0;
+}`}
+/>
+
+In interviews you can use the built-in tools. Python lists, JavaScript arrays, Java `ArrayDeque` and C++ `std::stack` all work.
+
+## How fast is it?
+<Complexity time='O(1) for push, pop and peek' space='O(n) for n items' why='We only ever touch the top plate. The size of the pile does not matter.' />
+
+## Common mistakes
+- Popping or peeking an empty stack. Always check `is_empty()` first.
+- Forgetting the order. The **last** item in comes out **first**.
+- Using the front of an array as the top. Removing from the front is slow.
+
+## Interview angle
+<InterviewTip>
+Interviewers rarely ask "build a stack". They hide it inside a problem.
+They want to see you spot the clue: matching pairs, undo, or "the most recent unfinished thing".
+Expect follow-ups like these:
+- Can you get the minimum in O(1)? (Min Stack)
+- What happens with an empty stack?
+- Can you build a stack using queues?
+</InterviewTip>
+
+## Checkpoint
+<Checkpoint question='You push A, then B, then C. What does the next pop return?' options={['A', 'B', 'C', 'Nothing, the stack is empty']} answer={2} explain='C went in last, so it is on top. Last in, first out.' />
+
+## Practice
+<Problems ids={['valid-parentheses', 'min-stack', 'daily-temperatures']} />
+
+## Quiz
+<Quiz id='stack-basics-quiz' />
+
+## Recap
+<Recap next='brackets-expressions' nextTitle='Brackets and Expressions'>
+- A stack is a pile of plates. You add and take only from the top.
+- Push puts on top, pop takes from the top, peek just looks.
+- Each move is super quick, no matter how tall the pile.
+</Recap>

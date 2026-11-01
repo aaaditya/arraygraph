@@ -1,0 +1,30 @@
+{
+  "id": "min-stack",
+  "title": "Min Stack",
+  "difficulty": "medium",
+  "patterns": ["stack"],
+  "statement": "Design a stack that supports push, pop, top and getMin.\nEvery operation must run in O(1) time.",
+  "hints": [
+    "What if every plate also carried a sticky note with the smallest value at or below it?",
+    "Store pairs: (value, minimum so far). The minimum of the whole stack is on the top pair.",
+    "A second stack that only tracks minimums also works."
+  ],
+  "starterCode": {
+    "python": "class MinStack:\n    def __init__(self):\n        pass\n\n    def push(self, val: int) -> None:\n        pass\n\n    def pop(self) -> None:\n        pass\n\n    def top(self) -> int:\n        pass\n\n    def getMin(self) -> int:\n        pass"
+  },
+  "tests": [
+    {
+      "input": "[\"push -2\", \"push 0\", \"push -3\", \"getMin\", \"pop\", \"top\", \"getMin\"]",
+      "output": "[null, null, null, -3, null, 0, -2]",
+      "hidden": false
+    }
+  ],
+  "solution": {
+    "approach": "Push (value, min(value, current minimum)) pairs. Pop removes the pair. top returns the value of the top pair, getMin returns its stored minimum.",
+    "complexity": "O(1) per operation, O(n) space",
+    "code": {
+      "python": "class MinStack:\n    def __init__(self):\n        self.items = []\n\n    def push(self, val: int) -> None:\n        smallest = min(val, self.items[-1][1]) if self.items else val\n        self.items.append((val, smallest))\n\n    def pop(self) -> None:\n        self.items.pop()\n\n    def top(self) -> int:\n        return self.items[-1][0]\n\n    def getMin(self) -> int:\n        return self.items[-1][1]"
+    }
+  },
+  "analogy": "plates that each carry a sticky note with the lightest plate below"
+}

@@ -54,7 +54,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers,
   logger: {
     error(error) {
-      if (error.name === "CredentialsSignin") return;
+      if (
+        error.name === "CredentialsSignin" ||
+        (error as { type?: string }).type === "CredentialsSignin"
+      )
+        return;
       console.error(error);
     },
   },

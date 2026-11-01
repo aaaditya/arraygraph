@@ -1,0 +1,31 @@
+{
+  "id": "valid-parentheses",
+  "title": "Valid Parentheses",
+  "difficulty": "easy",
+  "patterns": ["stack"],
+  "statement": "Given a string s containing only the characters ()[]{} decide if it is valid.\nA string is valid when every opening bracket is closed by the same type of bracket, in the correct order.",
+  "hints": [
+    "The most recent unclosed bracket must be closed first. Which data structure remembers the most recent thing?",
+    "Push every opening bracket. On a closing bracket, the top of the stack must be its partner.",
+    "At the end, the stack must be empty."
+  ],
+  "starterCode": {
+    "python": "def is_valid(s: str) -> bool:\n    pass",
+    "javascript": "function isValid(s) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "\"()\"", "output": "true", "hidden": false },
+    { "input": "\"()[]{}\"", "output": "true", "hidden": false },
+    { "input": "\"(]\"", "output": "false", "hidden": false },
+    { "input": "\"([)]\"", "output": "false", "hidden": true },
+    { "input": "\"((\"", "output": "false", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Walk the string once. Push opening brackets. For a closing bracket, pop and check it matches; if the stack is empty or the pair is wrong, return false. Return true only if the stack is empty at the end.",
+    "complexity": "O(n) time, O(n) space",
+    "code": {
+      "python": "def is_valid(s: str) -> bool:\n    pairs = {')': '(', ']': '[', '}': '{'}\n    stack = []\n    for ch in s:\n        if ch in pairs:\n            if not stack or stack.pop() != pairs[ch]:\n                return False\n        else:\n            stack.append(ch)\n    return not stack"
+    }
+  },
+  "analogy": "matching pairs of shoes"
+}

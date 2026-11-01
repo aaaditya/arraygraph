@@ -20,6 +20,7 @@ export function SignInForm({ callbackUrl }: { callbackUrl: string }) {
         type="email"
         autoComplete="email"
         required
+        defaultValue={state.values?.email}
         errors={state.fieldErrors?.email}
       />
       <FormField
@@ -57,6 +58,7 @@ export function SignUpForm({ callbackUrl }: { callbackUrl: string }) {
         label="Name"
         autoComplete="name"
         required
+        defaultValue={state.values?.name}
         errors={state.fieldErrors?.name}
       />
       <FormField
@@ -65,6 +67,7 @@ export function SignUpForm({ callbackUrl }: { callbackUrl: string }) {
         type="email"
         autoComplete="email"
         required
+        defaultValue={state.values?.email}
         errors={state.fieldErrors?.email}
       />
       <FormField

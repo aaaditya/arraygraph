@@ -57,6 +57,8 @@ export type FieldErrors = Partial<Record<string, string[]>>;
 
 export type FormState = {
   ok?: boolean;
+  /** Echo of submitted values, since React resets uncontrolled fields after a form action. */
+  values?: Record<string, string>;
   message?: string;
   fieldErrors?: FieldErrors;
 };

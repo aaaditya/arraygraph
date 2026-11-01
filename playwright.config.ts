@@ -10,6 +10,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
+  // `next dev` compiles routes on first hit, so local runs get more headroom than CI's production build.
+  timeout: process.env.CI ? 30_000 : 60_000,
+  expect: { timeout: process.env.CI ? 5_000 : 15_000 },
   use: {
     baseURL,
     trace: "on-first-retry",

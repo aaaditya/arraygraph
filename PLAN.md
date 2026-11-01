@@ -173,20 +173,21 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 ### Phase 4: Auth and profiles
 
 - [x] NextAuth v5 with Prisma adapter, JWT sessions, edge-safe `auth.config.ts`
-- [x] Credentials sign-up/sign-in (bcrypt, Zod), GitHub/Google auto-enabled when env vars exist
+- [x] Credentials sign-up/sign-in (async Node scrypt, Zod), GitHub/Google auto-enabled when env vars exist
 - [x] Middleware protecting `/profile` and `/dashboard`
 - [x] Header user menu, sign out
 - [x] Profile page: edit name, username, bio, daily goal (server action + Zod)
 
 ### Phase 5: Lesson engine
 
-- [ ] Zod schemas: lesson frontmatter, problem JSON, quiz JSON
-- [ ] Content loader (discover, parse, validate, cache, tree by track/module)
-- [ ] MDX compiler with component map
-- [ ] Components: Analogy, Visualizer, Trace, CodeTabs, Complexity, Checkpoint, Quiz, Problems, Recap, InterviewTip
-- [ ] `/learn` index and `/learn/[slug]` lesson page with table of contents, prerequisites, prev/next
-- [ ] Reference chapter 5.1 Stack (status: ready) + quiz + 3 problems; prerequisite stub
-- [ ] "Mark complete" server action awarding XP idempotently (signed-in users)
+- [x] Zod schemas: lesson frontmatter, problem JSON, quiz JSON
+- [x] Content loader (discover, parse, validate, cache, tree by track/module)
+- [x] MDX compiler with component map
+- [x] Components: Analogy, Visualizer, Trace, CodeTabs, Complexity, Checkpoint, Quiz, Problems, Recap, InterviewTip
+- [x] `/learn` index and `/learn/[slug]` lesson page with table of contents, prerequisites, prev/next
+- [x] Reference chapter 5.1 Stack (status: ready) + quiz + 3 problems; draft stubs for 2.1 and 5.2
+- [x] `pnpm content:check` validates frontmatter, folder layout, prerequisites, problem/quiz JSON and references
+- [x] "Mark complete" server action awarding XP idempotently (signed-in users)
 
 ### Phase 6: Stack visualizer (reference visualizer)
 

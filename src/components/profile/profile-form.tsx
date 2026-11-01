@@ -13,12 +13,13 @@ export type ProfileFormValues = {
   name: string;
   username: string;
   bio: string;
-  dailyGoalXp: number;
+  dailyGoalXp: number | string;
 };
 
 export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(updateProfileAction, {});
   const { update } = useSession();
+  const values = { ...defaults, ...state.values };
 
   useEffect(() => {
     if (state.ok) void update();
@@ -29,7 +30,7 @@ export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
       <FormField
         name="name"
         label="Name"
-        defaultValue={defaults.name}
+        defaultValue={values.name}
         autoComplete="name"
         required
         errors={state.fieldErrors?.name}
@@ -37,7 +38,7 @@ export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
       <FormField
         name="username"
         label="Username"
-        defaultValue={defaults.username}
+        defaultValue={values.username}
         autoComplete="username"
         hint="Optional. 3 to 20 lowercase letters, numbers or _."
         errors={state.fieldErrors?.username}
@@ -47,7 +48,7 @@ export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
         <Textarea
           id="bio"
           name="bio"
-          defaultValue={defaults.bio}
+          defaultValue={values.bio}
           maxLength={280}
           aria-invalid={state.fieldErrors?.bio ? true : undefined}
           aria-describedby={state.fieldErrors?.bio ? "bio-error" : undefined}
@@ -59,7 +60,7 @@ export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
         <select
           id="dailyGoalXp"
           name="dailyGoalXp"
-          defaultValue={defaults.dailyGoalXp}
+          defaultValue={values.dailyGoalXp}
           className="border-input bg-background focus-visible:ring-ring/50 h-10 rounded-md border px-3 text-sm outline-none focus-visible:ring-[3px]"
           aria-describedby="dailyGoalXp-error"
         >
