@@ -166,9 +166,9 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 
 ### Phase 3: Database
 
-- [ ] Prisma schema (all models above) + initial migration
-- [ ] Prisma client singleton, seed script (demo user)
-- [ ] `/api/health` checks DB connectivity
+- [x] Prisma schema (all models above) + initial migration
+- [x] Prisma client singleton, seed script (demo user)
+- [x] `/api/health` checks DB connectivity
 
 ### Phase 4: Auth and profiles
 
