@@ -1,0 +1,227 @@
+# VisualDSA: Build Plan
+
+VisualDSA teaches DSA, system design and competitive programming the way you would teach a child:
+**analogy first, visuals second, code last**. It also prepares learners for tech interviews.
+
+Source of truth for content: [`docs/CURRICULUM.md`](docs/CURRICULUM.md).
+
+---
+
+## 1. Architecture
+
+```
+Browser ──► Next.js 15 App Router (React 19, RSC)
+             │
+             ├─ Server Components: pages, lesson MDX rendering, data reads
+             ├─ Client Components: visualizers, quizzes, editor, canvas, theme
+             ├─ Server Actions: sign-up, profile updates, progress writes, waitlist
+             ├─ Route Handlers: /api/auth/[...nextauth], /api/health
+             └─ Middleware: protects /dashboard, /profile (session check, edge-safe config)
+                    │
+                    ▼
+             Prisma ORM ──► PostgreSQL
+                    │
+             /content (MDX lessons, problem JSON, quiz JSON) read from disk at build/request time
+```
+
+### Key decisions
+
+| Concern | Choice | Why |
+| --- | --- | --- |
+| Framework | Next.js 15 App Router, TypeScript `strict` | RSC for fast lesson pages, server actions for writes |
+| Styling | Tailwind CSS v4 + shadcn/ui (Radix primitives) | Accessible primitives, design tokens as CSS variables |
+| Motion | Framer Motion (`motion`) with `prefers-reduced-motion` respected | Smooth visualizers without breaking a11y |
+| State | Zustand for persisted user preferences; pure reducers for visualizer playback | Playback logic stays pure and unit-testable |
+| Content | MDX in `/content`, compiled with `next-mdx-remote/rsc`, frontmatter validated by Zod | Authors write Markdown; components are reusable |
+| Code highlighting | Shiki (server side, dual light/dark theme) | Zero client JS for static code |
+| Auth | NextAuth v5 (Auth.js) + Prisma adapter, JWT sessions | Credentials work with no external keys; GitHub/Google enable automatically when env vars exist |
+| DB | PostgreSQL + Prisma 6 | Relational progress data, migrations, typed client |
+| Validation | Zod everywhere: env, frontmatter, problem/quiz JSON, forms, server actions | One validation library across the stack |
+| Editor (later) | Monaco, code runs in a Web Worker (JS) / Pyodide (Python) | No server-side code execution needed |
+| Canvas (later) | React Flow | System design studio |
+| AI (later) | `AIProvider` interface + `DisabledProvider`, gated by `FEATURE_AI_MOCK=false` | Ships with no API key; Claude can be swapped in via one file |
+| Tests | Vitest + Testing Library (unit/component), Playwright + axe (e2e, a11y) | Fast unit loop, real-browser checks |
+| CI | GitHub Actions with a Postgres service | Lint, typecheck, unit, migrate, build, e2e on every PR |
+
+### Visualizer architecture
+
+Every visualizer is split in two:
+
+1. **Engine** (`src/lib/visualizers/<type>/engine.ts`): a pure function `buildFrames(initial, ops) => Frame[]`.
+   Each frame is an immutable snapshot: data state, highlighted pseudocode line, a plain-English caption,
+   and the element(s) to highlight. Fully unit tested.
+2. **Player** (`src/components/visualizers/player/*`): generic, type-agnostic playback over frames.
+   Play, pause, step forward, step back, reset, speed control, scrubber, keyboard shortcuts,
+   `aria-live` narration, and a highlighted pseudocode panel. Each visualizer only supplies a
+   `renderFrame(frame)` view.
+
+Adding a new visualizer = one engine + one view + registration in `src/components/visualizers/registry.tsx`.
+
+### Lesson engine
+
+- `content/<track>/<module>/<chapter>.mdx` files, frontmatter validated by `lessonFrontmatterSchema`.
+- `src/lib/content/lessons.ts` discovers, parses and caches lessons; builds the track/module tree.
+- `src/components/lesson/*` implements the template components:
+  `Analogy`, `Visualizer`, `Trace`, `CodeTabs`, `Complexity`, `Checkpoint`, `Quiz`, `Problems`, `Recap`, `InterviewTip`.
+- `Quiz` loads `content/quizzes/<id>.json`; `Problems` loads `content/problems/<id>.json` (both Zod validated).
+- Lesson route: `/learn/[slug]`. Index: `/learn`.
+
+---
+
+## 2. Database schema (Prisma)
+
+```
+User            id, name, email (unique), emailVerified, image, passwordHash?, username? (unique),
+                bio?, role (LEARNER|ADMIN), dailyGoalXp (default 30), timezone, createdAt, updatedAt
+Account         NextAuth OAuth accounts (provider, providerAccountId unique)
+Session         NextAuth sessions (kept for adapter compatibility)
+VerificationToken NextAuth email tokens
+
+LessonProgress  userId + lessonSlug (unique), status (STARTED|COMPLETED), startedAt, completedAt
+XpEvent         userId, amount, reason (LESSON|PROBLEM|QUIZ|STREAK_BONUS|REVIEW), refId,
+                unique(userId, reason, refId) for idempotent awards
+DailyActivity   userId + date (unique), xp, lessonsCompleted, problemsSolved  -> daily goals and streaks
+Streak          userId (unique), current, longest, lastActiveDate
+ReviewItem      userId + itemType + itemId (unique), stage (0..4 -> 1/3/7/21 days), dueAt, lastReviewedAt
+QuizAttempt     userId, quizId, score, total, answers (Json), createdAt
+ProblemSubmission userId, problemId, language, code, passed, passedCount, totalCount, createdAt
+UserBadge       userId + badgeId (unique), awardedAt
+DesignBoard     userId, caseStudyId, title, graph (Json: React Flow nodes/edges), checklist (Json), updatedAt
+WaitlistEntry   email (unique), feature (default "ai-mock-interview"), createdAt
+```
+
+Indexes: `XpEvent(userId, createdAt)`, `ReviewItem(userId, dueAt)`, `ProblemSubmission(userId, problemId)`.
+
+---
+
+## 3. Folder structure
+
+```
+.
+├── .github/workflows/ci.yml
+├── content/
+│   ├── <track>/<module>/<chapter>.mdx
+│   ├── problems/<id>.json
+│   └── quizzes/<id>.json
+├── docs/CURRICULUM.md
+├── prisma/
+│   ├── schema.prisma
+│   ├── migrations/
+│   └── seed.ts
+├── src/
+│   ├── app/
+│   │   ├── (auth)/signin, (auth)/signup
+│   │   ├── learn/            index + [slug]
+│   │   ├── visualizers/      playgrounds (stack first)
+│   │   ├── profile/
+│   │   ├── api/auth/[...nextauth], api/health
+│   │   ├── error.tsx, global-error.tsx, not-found.tsx, loading.tsx
+│   │   ├── sitemap.ts, robots.ts, manifest.ts
+│   │   └── layout.tsx, page.tsx, globals.css
+│   ├── components/
+│   │   ├── ui/               shadcn/ui primitives
+│   │   ├── layout/           header, footer, nav, theme toggle, user menu
+│   │   ├── lesson/           template components
+│   │   └── visualizers/      player + per-type views + registry
+│   ├── lib/
+│   │   ├── auth/             password hashing, sign-up action, schemas
+│   │   ├── content/          schemas, loaders, MDX compiler
+│   │   ├── visualizers/      pure engines
+│   │   ├── progress/         XP + lesson completion actions
+│   │   ├── db.ts, utils.ts, site.ts
+│   ├── stores/               Zustand stores
+│   ├── auth.ts, auth.config.ts, middleware.ts, env.ts
+├── tests/e2e/                Playwright specs
+├── PLAN.md, README.md
+```
+
+---
+
+## 4. Phased checklist
+
+Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (and e2e where relevant), fix, tick, commit.
+
+### Phase 0: Plan
+- [x] Add curriculum to `docs/CURRICULUM.md`
+- [x] Write `PLAN.md` (architecture, schema, folders, checklist)
+
+### Phase 1: Project setup
+- [ ] Next.js 15 + React 19 + TypeScript strict (`noUncheckedIndexedAccess`)
+- [ ] Tailwind v4, ESLint (next + typescript), Prettier
+- [ ] Env validation with Zod (`src/env.ts`), `.env.example`
+- [ ] Vitest + Testing Library + jsdom
+- [ ] Playwright + axe-core
+- [ ] GitHub Actions CI (lint, typecheck, unit, migrate, build, e2e)
+
+### Phase 2: Design system
+- [ ] shadcn/ui primitives (button, card, badge, input, label, textarea, skeleton, separator, progress, slider, tabs, dropdown menu)
+- [ ] Theme tokens (light/dark), `next-themes` toggle, focus rings, skip link
+- [ ] App shell: responsive header with mobile menu, footer
+- [ ] Error boundaries (`error.tsx`, `global-error.tsx`), `not-found.tsx`, loading skeletons
+- [ ] SEO: metadata template, Open Graph, `sitemap.ts`, `robots.ts`, `manifest.ts`
+- [ ] Landing page
+
+### Phase 3: Database
+- [ ] Prisma schema (all models above) + initial migration
+- [ ] Prisma client singleton, seed script (demo user)
+- [ ] `/api/health` checks DB connectivity
+
+### Phase 4: Auth and profiles
+- [ ] NextAuth v5 with Prisma adapter, JWT sessions, edge-safe `auth.config.ts`
+- [ ] Credentials sign-up/sign-in (bcrypt, Zod), GitHub/Google auto-enabled when env vars exist
+- [ ] Middleware protecting `/profile` and `/dashboard`
+- [ ] Header user menu, sign out
+- [ ] Profile page: edit name, username, bio, daily goal (server action + Zod)
+
+### Phase 5: Lesson engine
+- [ ] Zod schemas: lesson frontmatter, problem JSON, quiz JSON
+- [ ] Content loader (discover, parse, validate, cache, tree by track/module)
+- [ ] MDX compiler with component map
+- [ ] Components: Analogy, Visualizer, Trace, CodeTabs, Complexity, Checkpoint, Quiz, Problems, Recap, InterviewTip
+- [ ] `/learn` index and `/learn/[slug]` lesson page with table of contents, prerequisites, prev/next
+- [ ] Reference chapter 5.1 Stack (status: ready) + quiz + 3 problems; prerequisite stub
+- [ ] "Mark complete" server action awarding XP idempotently (signed-in users)
+
+### Phase 6: Stack visualizer (reference visualizer)
+- [ ] Pure engine `buildStackFrames` with unit tests (push, pop, peek, empty-pop error frame)
+- [ ] Generic player: play, pause, step, back, reset, speed, scrubber
+- [ ] Keyboard: Space play/pause, ←/→ step, Home reset, End jump to last, +/- speed
+- [ ] Highlighted pseudocode line, `aria-live` captions, reduced-motion support
+- [ ] Stack view with Framer Motion; `/visualizers/stack` playground with custom ops input
+- [ ] Used inside the Stack lesson via `<Visualizer type='stack' />`
+
+**Foundation stops here.**
+
+### Phase 7: Content scaffolding and roadmap
+- [ ] Generate `.mdx` stubs (status: draft) for every chapter in `docs/CURRICULUM.md`
+- [ ] Fully write 7.1 Binary Search and 10.2 BFS
+- [ ] Roadmap page: tracks, modules, prerequisites, lock/unlock, progress rings, Coming soon labels
+
+### Phase 8: Remaining visualizers
+- [ ] Queue, linked list, hash map, binary search, trees (traversals, BST), graphs (BFS/DFS), sorting (bubble, selection, insertion, merge, quick)
+
+### Phase 9: Pattern practice
+- [ ] 15 pattern pages with clue cards and template code
+- [ ] Problem page with Monaco editor, test runner in a Web Worker (JS) and Pyodide (Python)
+- [ ] Progressive hints, solution reveal, submissions saved
+
+### Phase 10: System design studio
+- [ ] Restaurant-analogy lessons (Track 3 Part A)
+- [ ] React Flow canvas with component palette, saved boards
+- [ ] Static checklists, self-review rubrics and model answers per case study
+
+### Phase 11: AI Mock Interview (Coming Soon)
+- [ ] `/mock-interview` page: Coming soon badge, sample chat, sample scorecard
+- [ ] Waitlist form (server action + Zod) saved to `WaitlistEntry`
+- [ ] `src/lib/ai/provider.ts`: `AIProvider` (askFollowUp, scoreAnswer, reviewDesign) + `DisabledProvider`, gated by `FEATURE_AI_MOCK`
+
+### Phase 12: Progress and gamification
+- [ ] XP rules (chapter 40, problems 20/40/80, quiz 15, streak bonus 10)
+- [ ] Streaks, daily goals, badges
+- [ ] Spaced repetition (1, 3, 7, 21 days) review queue
+- [ ] Dashboard
+
+### Phase 13: Quality hardening
+- [ ] Lighthouse 90+ on key pages (CI budget), bundle analysis
+- [ ] Full WCAG AA audit, screen reader pass on every visualizer
+- [ ] Rate limiting on auth and waitlist actions
