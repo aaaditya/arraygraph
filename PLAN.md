@@ -172,11 +172,11 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 
 ### Phase 4: Auth and profiles
 
-- [ ] NextAuth v5 with Prisma adapter, JWT sessions, edge-safe `auth.config.ts`
-- [ ] Credentials sign-up/sign-in (bcrypt, Zod), GitHub/Google auto-enabled when env vars exist
-- [ ] Middleware protecting `/profile` and `/dashboard`
-- [ ] Header user menu, sign out
-- [ ] Profile page: edit name, username, bio, daily goal (server action + Zod)
+- [x] NextAuth v5 with Prisma adapter, JWT sessions, edge-safe `auth.config.ts`
+- [x] Credentials sign-up/sign-in (bcrypt, Zod), GitHub/Google auto-enabled when env vars exist
+- [x] Middleware protecting `/profile` and `/dashboard`
+- [x] Header user menu, sign out
+- [x] Profile page: edit name, username, bio, daily goal (server action + Zod)
 
 ### Phase 5: Lesson engine
 
