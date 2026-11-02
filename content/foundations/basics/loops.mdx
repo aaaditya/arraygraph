@@ -4,61 +4,223 @@ track: foundations
 module: basics
 chapter: "0.4"
 title: "Loops"
-summary: "Draft stub for Loops. Analogy: washing 10 plates one by one."
+summary: "Loops repeat the same steps until a stop rule says stop — like washing plates one by one."
 level: beginner
 minutes: 12
-status: draft
+status: ready
 prerequisites: [conditions]
 patterns: []
 xp: 40
 analogy: "washing 10 plates one by one"
-tags: [loops]
+tags: [loops, while, for]
 ---
 
 ## What you will learn
-- The core idea in plain words.
-- How the analogy maps to the structure.
-- One small practice step.
+- Why loops exist: repeat without copy-paste.
+- How a counter `i` walks from 1 to n.
+- How to sum numbers from 1 to n with a loop.
 
 ## The story
-<Analogy title='washing 10 plates one by one'>
-This chapter is being written. The everyday picture is **washing 10 plates one by one**.
-When the full lesson lands, you will meet the idea with a story first, then a visual, then code.
+<Analogy emoji="🍽️" title="Washing 10 plates">
+After dinner there are 10 dirty plates.
+You do not write "wash plate" ten separate times in a diary.
+You think: while there is a dirty plate, wash one, then take the next.
+That repeat-until-done idea is a **loop**.
+The washing steps stay the same. Only the plate number changes.
 </Analogy>
 
+Programs use loops for the same reason. Repeat clear steps until a stop rule says you are finished.
+
 ## See it move
-Coming soon.
+Watch a loop wash plates, then add numbers from 1 to 5.
+
+<Visualizer
+  type="loop-stepper"
+  ops={["plates 5", "sum 5"]}
+  showPseudocode
+  title="Loop stepper"
+/>
+
+Each box is one trip through the loop. The stop rule is `i <= n`.
 
 ## Do it by hand
-A hand-trace exercise will live here.
+<Trace
+  title="Trace this"
+  input="total=0; for i in 1..4: total = total + i"
+  answer="10"
+  answerLabel="What is total at the end?"
+  hint="Write total after each add: +1, +2, +3, +4."
+/>
 
 ## Now the code
-Code tabs in five languages will land with the full chapter.
+Here is washing messages, then the sum from 1 to n.
 
-## How fast is it?
-Complexity notes are coming soon.
+<CodeTabs
+python={`def wash_plates(n: int) -> list[str]:
+    messages = []
+    for i in range(1, n + 1):
+        messages.append(f"wash plate {i}")
+    return messages
+
+def sum_to_n(n: int) -> int:
+    total = 0
+    i = 1
+    while i <= n:
+        total = total + i
+        i = i + 1
+    return total
+
+print(wash_plates(3))
+print(sum_to_n(4))  # 10`}
+javascript={`function washPlates(n) {
+  const messages = [];
+  for (let i = 1; i <= n; i++) {
+    messages.push(\`wash plate \${i}\`);
+  }
+  return messages;
+}
+
+function sumToN(n) {
+  let total = 0;
+  let i = 1;
+  while (i <= n) {
+    total = total + i;
+    i = i + 1;
+  }
+  return total;
+}
+
+console.log(washPlates(3));
+console.log(sumToN(4)); // 10`}
+java={`import java.util.ArrayList;
+import java.util.List;
+
+public class LoopsDemo {
+    static List<String> washPlates(int n) {
+        List<String> messages = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            messages.add("wash plate " + i);
+        }
+        return messages;
+    }
+
+    static int sumToN(int n) {
+        int total = 0;
+        int i = 1;
+        while (i <= n) {
+            total = total + i;
+            i = i + 1;
+        }
+        return total;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(washPlates(3));
+        System.out.println(sumToN(4)); // 10
+    }
+}`}
+cpp={`#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> washPlates(int n) {
+    std::vector<std::string> messages;
+    for (int i = 1; i <= n; i++) {
+        messages.push_back("wash plate " + std::to_string(i));
+    }
+    return messages;
+}
+
+int sumToN(int n) {
+    int total = 0;
+    int i = 1;
+    while (i <= n) {
+        total = total + i;
+        i = i + 1;
+    }
+    return total;
+}
+
+int main() {
+    auto messages = washPlates(3);
+    for (const auto& m : messages) std::cout << m << " ";
+    std::cout << "\\n" << sumToN(4) << "\\n"; // 10
+}`}
+csharp={`using System;
+using System.Collections.Generic;
+
+class LoopsDemo
+{
+    static List<string> WashPlates(int n)
+    {
+        var messages = new List<string>();
+        for (int i = 1; i <= n; i++)
+        {
+            messages.Add($"wash plate {i}");
+        }
+        return messages;
+    }
+
+    static int SumToN(int n)
+    {
+        int total = 0;
+        int i = 1;
+        while (i <= n)
+        {
+            total = total + i;
+            i = i + 1;
+        }
+        return total;
+    }
+
+    static void Main()
+    {
+        Console.WriteLine(string.Join(", ", WashPlates(3)));
+        Console.WriteLine(SumToN(4)); // 10
+    }
+}`}
+/>
+
+`for` and `while` both repeat. Use whichever reads clearer for the job.
+
+## How much work is this?
+<Complexity
+  title="How much work is this?"
+  time="About n repeats for a loop up to n"
+  space="A few counters, plus any list you build"
+  why="Washing 5 plates means 5 wash steps. Summing 1..n means about n additions."
+/>
 
 ## Common mistakes
-- Skipping the analogy and jumping straight to code
-- Memorising steps without tracing a tiny example
+- Forgetting to increase `i`, so the loop never ends.
+- Starting at 0 when you meant 1, or stopping before n.
+- Using a condition that is already false, so the loop body never runs.
 
 ## Interview angle
 <InterviewTip>
-Interviewers want to hear how you map washing 10 plates one by one to the real structure. Practice saying it out loud.
+When you see "for each" or "repeat until", think loop.
+Say the stop rule first: "i goes from 1 to n."
+Then say what changes each time: "add i to total."
+Interviewers like hearing the plan before the syntax.
 </InterviewTip>
 
 ## Checkpoint
-A quick check question will appear here.
+<Checkpoint
+  question="You run a loop with i from 1 to 3 and add i to total (starting at 0). What is total?"
+  options={["3", "6", "9", "0"]}
+  answer={1}
+  explain="1 + 2 + 3 = 6."
+/>
 
 ## Practice
-Practice problems will be linked when this chapter is ready.
+<Problems ids={["wash-plates", "sum-1-to-n"]} />
 
 ## Quiz
-A short quiz will unlock with the full chapter.
+<Quiz id="loops-quiz" />
 
 ## Recap
-<Recap>
-**Loops** starts from washing 10 plates one by one.
-This draft keeps your place in the roadmap.
-Come back when the status flips to ready.
+<Recap next="functions" nextTitle="Functions">
+- A loop repeats the same steps until a stop rule ends it.
+- A counter like i walks through each item or number.
+- Sum 1 to n by adding inside the loop, then return the total.
 </Recap>

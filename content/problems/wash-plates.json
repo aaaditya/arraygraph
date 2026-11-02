@@ -1,0 +1,29 @@
+{
+  "id": "wash-plates",
+  "title": "Wash Plates",
+  "difficulty": "easy",
+  "patterns": ["loops"],
+  "statement": "You wash plates one by one. Write a function that takes n (number of dirty plates) and returns a list of messages:\n\"wash plate 1\", \"wash plate 2\", … up to n.\nExample: wash_plates(3) → [\"wash plate 1\", \"wash plate 2\", \"wash plate 3\"].",
+  "hints": [
+    "Make an empty list.",
+    "Loop from 1 to n and append a message each time.",
+    "Use the loop variable in the message text."
+  ],
+  "starterCode": {
+    "python": "def wash_plates(n: int) -> list[str]:\n    pass",
+    "javascript": "function washPlates(n) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "1", "output": "[\"wash plate 1\"]", "hidden": false },
+    { "input": "3", "output": "[\"wash plate 1\", \"wash plate 2\", \"wash plate 3\"]", "hidden": false },
+    { "input": "5", "output": "[\"wash plate 1\", \"wash plate 2\", \"wash plate 3\", \"wash plate 4\", \"wash plate 5\"]", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Loop i from 1 to n and collect \"wash plate {i}\" into a list.",
+    "complexity": "About n steps — one message per plate.",
+    "code": {
+      "python": "def wash_plates(n: int) -> list[str]:\n    return [f\"wash plate {i}\" for i in range(1, n + 1)]"
+    }
+  },
+  "analogy": "washing 10 plates one by one"
+}
