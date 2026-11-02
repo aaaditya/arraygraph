@@ -1,0 +1,30 @@
+{
+  "id": "traffic-signal",
+  "title": "Traffic Signal",
+  "difficulty": "easy",
+  "patterns": ["conditionals"],
+  "statement": "Write a function that takes a signal color string: \"red\", \"yellow\", or \"green\".\nReturn \"stop\", \"wait\", or \"go\" matching the color.\nIf the color is anything else, return \"unknown\".",
+  "hints": [
+    "Use if / else if / else.",
+    "Compare the color with exact lowercase words.",
+    "Have a final else for unknown colors."
+  ],
+  "starterCode": {
+    "python": "def traffic_action(color: str) -> str:\n    pass",
+    "javascript": "function trafficAction(color) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "\"red\"", "output": "\"stop\"", "hidden": false },
+    { "input": "\"yellow\"", "output": "\"wait\"", "hidden": false },
+    { "input": "\"green\"", "output": "\"go\"", "hidden": false },
+    { "input": "\"blue\"", "output": "\"unknown\"", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Branch on the color string and return the matching action, with a default of unknown.",
+    "complexity": "Fixed tiny work — a few comparisons.",
+    "code": {
+      "python": "def traffic_action(color: str) -> str:\n    if color == \"red\":\n        return \"stop\"\n    if color == \"yellow\":\n        return \"wait\"\n    if color == \"green\":\n        return \"go\"\n    return \"unknown\""
+    }
+  },
+  "analogy": "traffic signal decisions"
+}
