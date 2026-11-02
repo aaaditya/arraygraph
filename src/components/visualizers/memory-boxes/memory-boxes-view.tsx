@@ -66,7 +66,7 @@ export function MemoryBoxesView({ frame }: { frame: MemoryBoxesFrame }) {
             key={`temp-${frame.tempValue}`}
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="border-warning bg-warning/10 ring-warning/30 flex w-28 flex-col overflow-hidden rounded-xl border-2 border-dashed ring-4 shadow-sm"
+            className="border-warning bg-warning/10 ring-warning/30 flex w-28 flex-col overflow-hidden rounded-xl border-2 border-dashed shadow-sm ring-4"
             aria-hidden="true"
           >
             <div className="bg-muted/60 border-b px-2 py-1 text-center text-xs font-semibold tracking-wide uppercase">

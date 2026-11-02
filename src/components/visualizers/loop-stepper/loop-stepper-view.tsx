@@ -11,8 +11,7 @@ export function describeLoopStepper(frame: LoopStepperFrame) {
 
 export function LoopStepperView({ frame }: { frame: LoopStepperFrame }) {
   const reduceMotion = useReducedMotion();
-  const label =
-    frame.kind === "plates" ? "plates" : frame.kind === "count" ? "counts" : "numbers";
+  const label = frame.kind === "plates" ? "plates" : frame.kind === "count" ? "counts" : "numbers";
 
   return (
     <div className="flex w-full flex-col items-center gap-4">

@@ -37,12 +37,7 @@
     {
       "id": "i-bump",
       "prompt": "In a counting loop, after finishing i = 3 with n = 5, what usually happens next?",
-      "options": [
-        "i becomes 4",
-        "The program deletes i",
-        "n becomes 3",
-        "The loop jumps to 100"
-      ],
+      "options": ["i becomes 4", "The program deletes i", "n becomes 3", "The loop jumps to 100"],
       "answer": 0,
       "explain": "You increase i by 1 and check the stop rule again."
     }

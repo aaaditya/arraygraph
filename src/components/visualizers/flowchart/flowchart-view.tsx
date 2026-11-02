@@ -64,10 +64,15 @@ export function FlowchartView({ frame }: { frame: FlowchartFrame }) {
               className={cn(
                 "flex min-h-11 w-full max-w-[220px] items-center justify-center border-2 px-3 py-2 text-center text-sm font-semibold",
                 node.shape === "oval" && "rounded-full",
-                node.shape === "diamond" && "rounded-lg rotate-0",
+                node.shape === "diamond" && "rotate-0 rounded-lg",
                 node.shape === "rect" && "rounded-lg",
                 active
-                  ? cn("ring-4", frame.color ? COLOR_RING[frame.color] : "border-primary bg-primary/10 ring-primary/30")
+                  ? cn(
+                      "ring-4",
+                      frame.color
+                        ? COLOR_RING[frame.color]
+                        : "border-primary bg-primary/10 ring-primary/30",
+                    )
                   : "border-border bg-card",
               )}
             >

@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  buildFlowchartFrames,
-  LINE,
-  parseFlowchartOps,
-  type FlowchartOp,
-} from "./engine";
+import { buildFlowchartFrames, LINE, parseFlowchartOps, type FlowchartOp } from "./engine";
 
 const ops = (...raw: string[]): FlowchartOp[] => {
   const result = parseFlowchartOps(raw);

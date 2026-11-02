@@ -14,10 +14,18 @@
     "javascript": "function sandwichPlan(steps) {\n  // your code\n}"
   },
   "tests": [
-    { "input": "[\"take bread\", \"add chutney\", \"close\"]", "output": "\"take bread -> add chutney -> close\"", "hidden": false },
+    {
+      "input": "[\"take bread\", \"add chutney\", \"close\"]",
+      "output": "\"take bread -> add chutney -> close\"",
+      "hidden": false
+    },
     { "input": "[\"boil water\"]", "output": "\"boil water\"", "hidden": false },
     { "input": "[]", "output": "\"\"", "hidden": false },
-    { "input": "[\"open\", \"fill\", \"fold\", \"eat\"]", "output": "\"open -> fill -> fold -> eat\"", "hidden": true }
+    {
+      "input": "[\"open\", \"fill\", \"fold\", \"eat\"]",
+      "output": "\"open -> fill -> fold -> eat\"",
+      "hidden": true
+    }
   ],
   "solution": {
     "approach": "Join every step string with \" -> \". Most languages have a built-in join for this.",

@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  buildStepRunnerFrames,
-  LINE,
-  parseStepRunnerOps,
-  type StepRunnerOp,
-} from "./engine";
+import { buildStepRunnerFrames, LINE, parseStepRunnerOps, type StepRunnerOp } from "./engine";
 
 const ops = (...raw: string[]): StepRunnerOp[] => {
   const result = parseStepRunnerOps(raw);
@@ -32,10 +27,7 @@ describe("parseStepRunnerOps", () => {
 
 describe("buildStepRunnerFrames", () => {
   it("walks each chai step and ends done", () => {
-    const frames = buildStepRunnerFrames(
-      ["Boil water", "Add tea", "Pour"],
-      ops("run"),
-    );
+    const frames = buildStepRunnerFrames(["Boil water", "Add tea", "Pour"], ops("run"));
     expect(frames[0]).toMatchObject({ current: -1, done: false, status: "idle" });
     const active = frames.filter((frame) => frame.line === LINE.doStep);
     expect(active.map((frame) => frame.current)).toEqual([0, 1, 2]);

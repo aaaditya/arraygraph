@@ -1,9 +1,7 @@
 import type { BaseFrame, ParseResult, PseudocodeLine } from "../types";
 
 export type LoopOp =
-  | { kind: "sum"; n: number }
-  | { kind: "count"; n: number }
-  | { kind: "plates"; n: number };
+  { kind: "sum"; n: number } | { kind: "count"; n: number } | { kind: "plates"; n: number };
 
 export type LoopStepperFrame = BaseFrame & {
   kind: LoopOp["kind"] | "idle";
@@ -61,9 +59,7 @@ export function parseLoopOps(raw: string[]): ParseResult<LoopOp[]> {
         ops.push({ kind: "plates", n });
         break;
       default:
-        errors.push(
-          `Step ${index + 1}: unknown operation "${command}". Use sum, count or plates.`,
-        );
+        errors.push(`Step ${index + 1}: unknown operation "${command}". Use sum, count or plates.`);
     }
   });
   return errors.length ? { ok: false, errors } : { ok: true, value: ops };
@@ -80,10 +76,7 @@ function makeItems(n: number, current: number, doneThrough: number) {
   });
 }
 
-export function buildLoopStepperFrames(
-  _initial: unknown[],
-  ops: LoopOp[],
-): LoopStepperFrame[] {
+export function buildLoopStepperFrames(_initial: unknown[], ops: LoopOp[]): LoopStepperFrame[] {
   const frames: LoopStepperFrame[] = [
     {
       line: -1,
@@ -100,8 +93,7 @@ export function buildLoopStepperFrames(
 
   ops.forEach((op, opIndex) => {
     let total = 0;
-    const noun =
-      op.kind === "plates" ? "plate" : op.kind === "count" ? "count" : "number";
+    const noun = op.kind === "plates" ? "plate" : op.kind === "count" ? "count" : "number";
 
     frames.push({
       line: LINE.initTotal,

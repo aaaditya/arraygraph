@@ -30,12 +30,7 @@
     {
       "id": "clear-steps",
       "prompt": "Which instruction is clearest for a literal robot?",
-      "options": [
-        "Make it nice",
-        "Do the chai thing",
-        "Add two spoons of sugar",
-        "Finish somehow"
-      ],
+      "options": ["Make it nice", "Do the chai thing", "Add two spoons of sugar", "Finish somehow"],
       "answer": 2,
       "explain": "Clear steps name exactly what to do. Vague words leave the robot stuck."
     },

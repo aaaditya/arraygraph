@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  buildLoopStepperFrames,
-  LINE,
-  parseLoopOps,
-  type LoopOp,
-} from "./engine";
+import { buildLoopStepperFrames, LINE, parseLoopOps, type LoopOp } from "./engine";
 
 const ops = (...raw: string[]): LoopOp[] => {
   const result = parseLoopOps(raw);

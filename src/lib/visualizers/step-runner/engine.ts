@@ -47,13 +47,12 @@ export function normalizeSteps(initial: unknown[]): string[] {
     .map((value) => String(value).trim())
     .filter(Boolean)
     .slice(0, MAX_STEPS)
-    .map((step) => (step.length > MAX_STEP_LENGTH ? `${step.slice(0, MAX_STEP_LENGTH - 1)}…` : step));
+    .map((step) =>
+      step.length > MAX_STEP_LENGTH ? `${step.slice(0, MAX_STEP_LENGTH - 1)}…` : step,
+    );
 }
 
-export function buildStepRunnerFrames(
-  initial: unknown[],
-  ops: StepRunnerOp[],
-): StepRunnerFrame[] {
+export function buildStepRunnerFrames(initial: unknown[], ops: StepRunnerOp[]): StepRunnerFrame[] {
   const steps = normalizeSteps(initial);
   const frames: StepRunnerFrame[] = [
     {

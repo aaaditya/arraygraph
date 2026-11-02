@@ -87,8 +87,7 @@ export function parseMemoryOps(raw: string[]): ParseResult<MemoryOp[]> {
       }
       case "swap": {
         const [left = "", right = "", extra] = rest;
-        if (!left || !right || extra)
-          errors.push(`Step ${index + 1}: use "swap a b".`);
+        if (!left || !right || extra) errors.push(`Step ${index + 1}: use "swap a b".`);
         else ops.push({ kind: "swap", left, right });
         break;
       }
@@ -100,9 +99,7 @@ export function parseMemoryOps(raw: string[]): ParseResult<MemoryOp[]> {
         break;
       }
       default:
-        errors.push(
-          `Step ${index + 1}: unknown operation "${command}". Use set, swap or read.`,
-        );
+        errors.push(`Step ${index + 1}: unknown operation "${command}". Use set, swap or read.`);
     }
   });
   return errors.length ? { ok: false, errors } : { ok: true, value: ops };
@@ -134,10 +131,7 @@ function describe(boxes: MemoryBox[]): string {
   return boxes.map((box) => `${box.name}=${box.value}`).join(", ");
 }
 
-export function buildMemoryBoxesFrames(
-  initial: unknown[],
-  ops: MemoryOp[],
-): MemoryBoxesFrame[] {
+export function buildMemoryBoxesFrames(initial: unknown[], ops: MemoryOp[]): MemoryBoxesFrame[] {
   let boxes = parseMemoryInitial(initial);
   const frames: MemoryBoxesFrame[] = [
     {

@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  buildMemoryBoxesFrames,
-  parseMemoryOps,
-  type MemoryOp,
-} from "./engine";
+import { buildMemoryBoxesFrames, parseMemoryOps, type MemoryOp } from "./engine";
 
 const ops = (...raw: string[]): MemoryOp[] => {
   const result = parseMemoryOps(raw);

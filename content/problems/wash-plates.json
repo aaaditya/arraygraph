@@ -15,8 +15,16 @@
   },
   "tests": [
     { "input": "1", "output": "[\"wash plate 1\"]", "hidden": false },
-    { "input": "3", "output": "[\"wash plate 1\", \"wash plate 2\", \"wash plate 3\"]", "hidden": false },
-    { "input": "5", "output": "[\"wash plate 1\", \"wash plate 2\", \"wash plate 3\", \"wash plate 4\", \"wash plate 5\"]", "hidden": true }
+    {
+      "input": "3",
+      "output": "[\"wash plate 1\", \"wash plate 2\", \"wash plate 3\"]",
+      "hidden": false
+    },
+    {
+      "input": "5",
+      "output": "[\"wash plate 1\", \"wash plate 2\", \"wash plate 3\", \"wash plate 4\", \"wash plate 5\"]",
+      "hidden": true
+    }
   ],
   "solution": {
     "approach": "Loop i from 1 to n and collect \"wash plate {i}\" into a list.",

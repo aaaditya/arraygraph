@@ -2,7 +2,8 @@ import type { BaseFrame, ParseResult, PseudocodeLine } from "../types";
 
 export type FlowchartOp = { kind: "check"; color: "red" | "yellow" | "green" };
 
-export type FlowNodeId = "start" | "ask" | "red" | "yellow" | "green" | "stop" | "wait" | "go" | "end";
+export type FlowNodeId =
+  "start" | "ask" | "red" | "yellow" | "green" | "stop" | "wait" | "go" | "end";
 
 export type FlowchartFrame = BaseFrame & {
   active: FlowNodeId;
@@ -43,18 +44,13 @@ export function parseFlowchartOps(raw: string[]): ParseResult<FlowchartOp[]> {
     if (colorToken === "red" || colorToken === "yellow" || colorToken === "green") {
       ops.push({ kind: "check", color: colorToken });
     } else {
-      errors.push(
-        `Step ${index + 1}: unknown color "${entry}". Use red, yellow or green.`,
-      );
+      errors.push(`Step ${index + 1}: unknown color "${entry}". Use red, yellow or green.`);
     }
   });
   return errors.length ? { ok: false, errors } : { ok: true, value: ops };
 }
 
-export function buildFlowchartFrames(
-  _initial: unknown[],
-  ops: FlowchartOp[],
-): FlowchartFrame[] {
+export function buildFlowchartFrames(_initial: unknown[], ops: FlowchartOp[]): FlowchartFrame[] {
   const frames: FlowchartFrame[] = [
     {
       line: -1,
@@ -67,7 +63,14 @@ export function buildFlowchartFrames(
 
   const path: Record<
     FlowchartOp["color"],
-    { askLine: number; actionLine: number; node: FlowNodeId; action: FlowNodeId; decision: string; caption: string }
+    {
+      askLine: number;
+      actionLine: number;
+      node: FlowNodeId;
+      action: FlowNodeId;
+      decision: string;
+      caption: string;
+    }
   > = {
     red: {
       askLine: LINE.ifRed,
