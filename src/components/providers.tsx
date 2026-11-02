@@ -10,6 +10,9 @@ import { usePreferences } from "@/stores/preferences";
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     void usePreferences.persist.rehydrate();
+    void import("@/stores/guest-progress").then(({ useGuestProgress }) =>
+      useGuestProgress.persist.rehydrate(),
+    );
   }, []);
 
   return (

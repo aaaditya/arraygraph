@@ -16,3 +16,10 @@ export function dateKeyInTimeZone(date: Date, timeZone: string): string {
 export function dateKeyToDbDate(key: string): Date {
   return new Date(`${key}T00:00:00.000Z`);
 }
+
+/** Shifts a YYYY-MM-DD key by whole days (can be negative). */
+export function shiftDateKey(key: string, deltaDays: number): string {
+  const date = dateKeyToDbDate(key);
+  date.setUTCDate(date.getUTCDate() + deltaDays);
+  return date.toISOString().slice(0, 10);
+}

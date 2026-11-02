@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ContinueSlot } from "@/components/layout/continue-slot";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { UserNav } from "@/components/layout/user-nav";
+import { GuestSaveBanner } from "@/components/progress/guest-banner";
+import { GuestProgressMerge } from "@/components/progress/guest-merge";
 import { Providers } from "@/components/providers";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -65,7 +68,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             Skip to content
           </a>
           <div className="flex min-h-dvh flex-col">
-            <SiteHeader userSlot={<UserNav />} />
+            <SiteHeader userSlot={<UserNav />} continueSlot={<ContinueSlot />} />
+            <GuestSaveBanner />
+            <GuestProgressMerge />
             <main id="main" className="flex-1">
               {children}
             </main>
