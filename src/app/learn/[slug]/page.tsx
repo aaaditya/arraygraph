@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CompleteLessonButton } from "@/components/lesson/complete-lesson-button";
 import { LessonMetaBadges } from "@/components/lesson/lesson-meta-badges";
+import { LessonAutosave } from "@/components/progress/lesson-autosave";
 import { getModuleMeta, getTrackMeta, humanize } from "@/lib/content/catalog";
 import { getAdjacentLessons, getAllLessons, getLessonBySlug } from "@/lib/content/loader";
 import { renderLessonBody } from "@/lib/content/mdx";
@@ -52,6 +53,7 @@ export default async function LessonPage({ params }: Params) {
 
   return (
     <div className="mx-auto grid max-w-6xl gap-10 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_220px]">
+      <LessonAutosave lessonSlug={meta.slug} />
       <article className="min-w-0">
         <nav aria-label="Breadcrumb" className="text-muted-foreground text-sm">
           <ol className="flex flex-wrap items-center gap-1">

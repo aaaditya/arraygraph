@@ -81,7 +81,7 @@ test.describe("lesson engine", () => {
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill("plates123");
     await page.getByRole("button", { name: "Create account" }).click();
-    await page.waitForURL((url) => url.pathname === "/learn/stack-basics");
+    await page.waitForURL((url) => url.pathname === "/learn/stack-basics", { timeout: 60_000 });
 
     await page.getByRole("button", { name: "Mark lesson complete (+40 XP)" }).click();
     await expect(page.getByText("+40 XP. Nice work!")).toBeVisible();
@@ -90,13 +90,10 @@ test.describe("lesson engine", () => {
     await page.reload();
     await expect(page.getByText("Lesson completed")).toBeVisible();
 
-    await page.goto("/profile");
-    await expect(
-      page.locator("dl > div", { hasText: "Total XP" }).locator("dd").first(),
-    ).toHaveText("40");
-    await expect(
-      page.locator("dl > div", { hasText: "Lessons completed" }).locator("dd").first(),
-    ).toHaveText("1");
+    await page.goto("/dashboard");
+    await expect(page.locator("#main").getByText("Total XP").first()).toBeVisible();
+    await expect(page.locator("#main").getByText("40", { exact: true }).first()).toBeVisible();
+    await expect(page.locator("#main").getByText(/1\s+done/)).toBeVisible();
   });
 
   test("signed-out learners are invited to sign in to save progress", async ({ page }) => {

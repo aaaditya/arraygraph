@@ -14,6 +14,7 @@ export type ProfileFormValues = {
   username: string;
   bio: string;
   dailyGoalXp: number | string;
+  timezone: string;
 };
 
 export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
@@ -72,6 +73,13 @@ export function ProfileForm({ defaults }: { defaults: ProfileFormValues }) {
         </select>
         <FieldError id="dailyGoalXp-error" errors={state.fieldErrors?.dailyGoalXp} />
       </div>
+      <FormField
+        name="timezone"
+        label="Time zone"
+        defaultValue={values.timezone}
+        hint="Used for streaks and daily goals."
+        errors={state.fieldErrors?.timezone}
+      />
       <FormMessage message={state.message} ok={state.ok} />
       <Button type="submit" disabled={pending} className="w-fit">
         {pending ? "Saving…" : "Save profile"}

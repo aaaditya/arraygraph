@@ -240,3 +240,45 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 - [ ] Lighthouse 90+ on key pages (CI budget), bundle analysis
 - [ ] Full WCAG AA audit, screen reader pass on every visualizer
 - [ ] Rate limiting on auth and waitlist actions
+
+---
+
+## 5. Accounts, sessions and progress (post-foundation)
+
+Process: schema → auth → progress API → resume UI / guest merge → dashboard → tests. No paid API keys; mailer is `ConsoleMailer` in dev.
+
+### Phase A: Schema and seed
+
+- [x] Expand `LessonProgress` (IN_PROGRESS|COMPLETED, lastSection, scrollPosition, visualizerState, updatedAt)
+- [x] `ProblemAttempt` + `CodeDraft`; keep submissions history; `QuizResult` (rename/alias of attempts)
+- [x] `AuthToken` (email verify + password reset); `User.sessionVersion` for logout-everywhere
+- [x] Seed demo user with sample lesson progress, XP, streak and a due review
+
+### Phase B: Auth completeness
+
+- [x] `/login` (alias of sign-in), `/signup`, `/forgot-password`, `/reset-password`, `/verify-email`, `/account`
+- [x] Stronger password rules; scrypt hashing (async); optional Google/GitHub when env set
+- [x] JWT httpOnly cookies, `updateAge` refresh, CSRF via Auth.js; logout everywhere bumps `sessionVersion`
+- [x] Swappable `Mailer` (`ConsoleMailer` now; Resend when `RESEND_API_KEY` set)
+- [x] Rate limit login/signup/reset; never reveal whether an email exists
+- [x] Account: edit profile, change password, delete account + cascade data
+- [x] Middleware: `/dashboard`, `/account`, `/profile` require login; `/learn` public
+
+### Phase C: Progress API
+
+- [x] Server-side XP, streak (user timezone) and spaced-repetition helpers with unit tests
+- [x] Debounced auto-save (section, scroll, quiz answers, code drafts) via Zod server actions
+- [x] Offline queue + retry; optimistic UI
+- [x] Guest→user merge preferring newer `updatedAt` (unit tested)
+
+### Phase D: Resume UI and dashboard
+
+- [x] Continue-learning card in header + dashboard (deep-link to section)
+- [x] Roadmap with completed / in-progress / locked + progress rings
+- [x] Guest localStorage progress + “Sign up to save” banner
+- [x] Dashboard: continue, daily goal, streak calendar, XP, weakest patterns, due reviews
+
+### Phase E: Quality
+
+- [x] Playwright: signup, login, save progress, logout, fresh browser resume
+- [x] README security checklist (hashing, rate limits, cookies, deletion, no client secrets)

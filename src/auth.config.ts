@@ -1,6 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
 
-export const PROTECTED_PREFIXES = ["/profile", "/dashboard"];
+export const PROTECTED_PREFIXES = ["/profile", "/dashboard", "/account"];
 
 export function isProtectedPath(pathname: string) {
   return PROTECTED_PREFIXES.some(
@@ -13,8 +13,13 @@ export function isProtectedPath(pathname: string) {
  * It must not import Prisma or any Node-only module.
  */
 export const authConfig = {
-  pages: { signIn: "/signin" },
-  session: { strategy: "jwt" },
+  pages: { signIn: "/login" },
+  session: {
+    strategy: "jwt",
+    // Sliding refresh: Auth.js reissues the JWT when older than updateAge.
+    maxAge: 60 * 60 * 24 * 14,
+    updateAge: 60 * 60,
+  },
   providers: [],
   callbacks: {
     authorized({ auth, request }) {
@@ -26,6 +31,7 @@ export const authConfig = {
         token.id = user.id as string;
         token.role = user.role ?? "LEARNER";
         token.username = user.username ?? null;
+        token.sessionVersion = user.sessionVersion ?? 0;
       }
       return token;
     },

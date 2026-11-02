@@ -26,36 +26,65 @@ describe("signUpSchema", () => {
 describe("profileSchema", () => {
   it("turns empty optional fields into null and coerces the goal", () => {
     expect(
-      profileSchema.parse({ name: "Ravi", username: "", bio: "  ", dailyGoalXp: "30" }),
-    ).toEqual({ name: "Ravi", username: null, bio: null, dailyGoalXp: 30 });
+      profileSchema.parse({
+        name: "Ravi",
+        username: "",
+        bio: "  ",
+        dailyGoalXp: "30",
+        timezone: "Asia/Kolkata",
+      }),
+    ).toEqual({
+      name: "Ravi",
+      username: null,
+      bio: null,
+      dailyGoalXp: 30,
+      timezone: "Asia/Kolkata",
+    });
   });
 
   it("validates username format", () => {
     expect(
-      profileSchema.safeParse({ name: "R", username: "Bad Name!", bio: "", dailyGoalXp: 30 })
-        .success,
+      profileSchema.safeParse({
+        name: "R",
+        username: "Bad Name!",
+        bio: "",
+        dailyGoalXp: 30,
+        timezone: "UTC",
+      }).success,
     ).toBe(false);
     expect(
-      profileSchema.parse({ name: "R", username: "Chai_Lover", bio: "", dailyGoalXp: 30 }).username,
+      profileSchema.parse({
+        name: "R",
+        username: "Chai_Lover",
+        bio: "",
+        dailyGoalXp: 30,
+        timezone: "UTC",
+      }).username,
     ).toBe("chai_lover");
   });
 
   it("rejects daily goals outside the options", () => {
     expect(
-      profileSchema.safeParse({ name: "R", username: "", bio: "", dailyGoalXp: 33 }).success,
+      profileSchema.safeParse({
+        name: "R",
+        username: "",
+        bio: "",
+        dailyGoalXp: 33,
+        timezone: "UTC",
+      }).success,
     ).toBe(false);
   });
 });
 
 describe("safeCallbackUrl", () => {
   it("keeps same-origin relative paths", () => {
-    expect(safeCallbackUrl("/profile")).toBe("/profile");
+    expect(safeCallbackUrl("/account")).toBe("/account");
   });
 
   it("blocks absolute and protocol-relative urls", () => {
-    expect(safeCallbackUrl("https://evil.example")).toBe("/learn");
-    expect(safeCallbackUrl("//evil.example")).toBe("/learn");
-    expect(safeCallbackUrl("/\\evil.example")).toBe("/learn");
+    expect(safeCallbackUrl("https://evil.example")).toBe("/dashboard");
+    expect(safeCallbackUrl("//evil.example")).toBe("/dashboard");
+    expect(safeCallbackUrl("/\\evil.example")).toBe("/dashboard");
     expect(safeCallbackUrl(undefined, "/")).toBe("/");
   });
 });

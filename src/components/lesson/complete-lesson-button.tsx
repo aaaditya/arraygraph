@@ -30,7 +30,7 @@ export function CompleteLessonButton({ slug, xp }: { slug: string; xp: number })
     return (
       <p className="text-muted-foreground text-sm">
         <Link
-          href={`/signin?callbackUrl=/learn/${slug}`}
+          href={`/login?callbackUrl=/learn/${slug}`}
           className="text-primary font-medium underline-offset-4 hover:underline"
         >
           Sign in

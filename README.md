@@ -2,7 +2,7 @@
 
 Analogy-first learning for DSA, system design, and interview prep. Visuals second, code last.
 
-Foundation so far: auth, Postgres progress, MDX lesson engine, and a keyboard-friendly **stack visualizer** used as the reference for every later visualizer.
+Accounts, sessions and progress saving are included: email auth, optional OAuth, guest→user merge, autosave, dashboard resume, XP and streaks (server-side).
 
 ## Stack
 
@@ -33,6 +33,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - Email: `demo@visualdsa.dev`
 - Password: `learn-dsa-123`
+- Seed includes sample in-progress lesson, XP, streak and a due review.
 
 ## Scripts
 
@@ -50,31 +51,39 @@ Open [http://localhost:3000](http://localhost:3000).
 | `pnpm content:check` | Validate MDX / problem / quiz content      |
 | `pnpm db:migrate`    | Create/apply Prisma migrations (dev)       |
 | `pnpm db:deploy`     | Apply migrations (CI/prod)                 |
-| `pnpm db:seed`       | Seed demo user                             |
-
-## Layout
-
-```
-content/          MDX lessons, problem JSON, quiz JSON
-docs/CURRICULUM.md
-PLAN.md           Architecture + phased checklist
-prisma/           Schema, migrations, seed
-src/app/          Routes (learn, visualizers, auth, profile)
-src/components/   UI, lesson templates, visualizer player
-src/lib/          Auth, content loaders, visualizer engines, progress
-tests/e2e/        Playwright specs
-```
+| `pnpm db:seed`       | Seed demo user + sample progress           |
 
 ## Notable routes
 
-- `/learn` — curriculum index
-- `/learn/stack-basics` — reference chapter with embedded stack visualizer
-- `/visualizers/stack` — playground (custom ops + presets)
-- `/signin`, `/signup`, `/profile`
+- `/learn` — roadmap with progress rings (public)
+- `/learn/stack-basics` — reference chapter
+- `/visualizers/stack` — stack playground
+- `/login`, `/signup`, `/forgot-password`, `/reset-password`, `/verify-email`
+- `/dashboard`, `/account` (auth required)
+- `/signin` and `/profile` redirect to `/login` and `/account`
+
+## Email
+
+No paid API key required. Verification and password-reset links use a swappable `Mailer`:
+
+- Default: `ConsoleMailer` (prints the full link in the server console)
+- Optional: set `RESEND_API_KEY` (+ `MAIL_FROM`) to send via Resend
+
+## Security checklist
+
+- **Password hashing:** async Node `scrypt` (`scrypt$N$r$p$salt$hash`); never plaintext
+- **Sessions:** Auth.js JWT in **httpOnly**, `Secure` (prod), `SameSite` cookies; CSRF via Auth.js; sliding refresh (`updateAge`); `sessionVersion` bump for sign-out-everywhere / password change
+- **OAuth:** GitHub/Google only when both env vars are set; app runs fully without them
+- **Rate limits:** login, signup, forgot/reset, verify (fixed window per IP)
+- **Email enumeration:** signup / forgot-password return the same generic message whether or not the email exists
+- **Authorization:** `/dashboard` and `/account` gated in middleware; lessons stay public for SEO
+- **Data deletion:** account delete cascades user-owned rows (progress, tokens, submissions, …)
+- **Secrets:** `AUTH_SECRET`, DB URL, OAuth and Resend keys are server-only (validated in `src/env.ts`); never exposed to the client bundle
+- **XP / streaks:** calculated only on the server; clients cannot submit XP amounts
 
 ## AI mock interview
 
-Coming soon. `FEATURE_AI_MOCK` defaults to `false`. No AI API key is required for this foundation.
+Coming soon. `FEATURE_AI_MOCK` defaults to `false`. No AI API key is required.
 
 ## Testing and CI
 
@@ -83,4 +92,4 @@ pnpm lint && pnpm typecheck && pnpm test && pnpm content:check
 pnpm build && CI=1 pnpm test:e2e
 ```
 
-GitHub Actions (`.github/workflows/ci.yml`) runs format, lint, typecheck, content check, unit tests, migrate, build, and Playwright against a Postgres service.
+GitHub Actions runs format, lint, typecheck, content check, unit tests, migrate, build, and Playwright against Postgres.
