@@ -1,0 +1,45 @@
+{
+  "id": "stack-basics-quiz",
+  "title": "Stack recap quiz",
+  "lesson": "stack-basics",
+  "questions": [
+    {
+      "id": "lifo-meaning",
+      "prompt": "What does LIFO stand for?",
+      "options": [
+        "Last In, First Out",
+        "Last In, Final Out",
+        "Least Important, First Out",
+        "Linked In, Forward Out"
+      ],
+      "answer": 0,
+      "explain": "The last plate placed on the pile is the first one taken."
+    },
+    {
+      "id": "trace-ops",
+      "prompt": "Start empty. push 4, push 8, pop, push 6, peek. What does peek return?",
+      "options": ["4", "8", "6", "The stack is empty"],
+      "answer": 2,
+      "explain": "After pop removes 8, the stack is [4]. Pushing 6 makes 6 the top."
+    },
+    {
+      "id": "pop-cost",
+      "prompt": "A stack holds one million items. How long does pop take?",
+      "options": ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+      "answer": 0,
+      "explain": "Pop only touches the top item, so the size of the stack does not matter."
+    },
+    {
+      "id": "real-world",
+      "prompt": "Which of these behaves like a stack?",
+      "options": [
+        "A chai stall line",
+        "The undo button",
+        "A railway ticket counter",
+        "A merry-go-round"
+      ],
+      "answer": 1,
+      "explain": "Undo reverses your most recent action first. Lines and counters are queues."
+    }
+  ]
+}
