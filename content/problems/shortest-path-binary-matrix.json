@@ -1,0 +1,29 @@
+{
+  "id": "shortest-path-binary-matrix",
+  "title": "Shortest Path in Binary Matrix",
+  "difficulty": "medium",
+  "patterns": ["bfs"],
+  "statement": "Given an n x n binary matrix `grid`, return the length of the shortest clear path from the top-left cell to the bottom-right cell.\nA clear path visits only 0 cells and may move to any of the 8 adjacent cells.\nReturn -1 if there is no clear path.",
+  "hints": [
+    "BFS on the grid. Each move has equal cost, so BFS gives the shortest length.",
+    "Start only if grid[0][0] is 0. Mark cells visited as you enqueue them.",
+    "Include diagonal neighbours."
+  ],
+  "starterCode": {
+    "python": "def shortest_path_binary_matrix(grid: list[list[int]]) -> int:\n    pass",
+    "javascript": "function shortestPathBinaryMatrix(grid) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "[[0,1],[1,0]]", "output": "2", "hidden": false },
+    { "input": "[[0,0,0],[1,1,0],[1,1,0]]", "output": "4", "hidden": false },
+    { "input": "[[1,0,0],[1,1,0],[1,1,0]]", "output": "-1", "hidden": true }
+  ],
+  "solution": {
+    "approach": "8-direction BFS from (0,0). Record distance in the queue. First time you reach (n-1,n-1) is the answer.",
+    "complexity": "O(n^2) time, O(n^2) space",
+    "code": {
+      "python": "from collections import deque\n\ndef shortest_path_binary_matrix(grid):\n    n = len(grid)\n    if grid[0][0] or grid[n-1][n-1]:\n        return -1\n    q = deque([(0, 0, 1)])\n    grid[0][0] = 1\n    dirs = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]\n    while q:\n        r, c, dist = q.popleft()\n        if r == n - 1 and c == n - 1:\n            return dist\n        for dr, dc in dirs:\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:\n                grid[nr][nc] = 1\n                q.append((nr, nc, dist + 1))\n    return -1"
+    }
+  },
+  "analogy": "crossing a treasure map that allows diagonal steps"
+}

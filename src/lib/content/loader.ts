@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { z } from "zod";
-import { getModuleMeta, getTrackMeta, humanize } from "./catalog";
+import { getModuleMeta, getTrackMeta, humanize, TRACKS } from "./catalog";
 import {
   compareLessons,
   ContentError,
@@ -95,7 +95,19 @@ export async function getLessonTree(): Promise<TrackGroup[]> {
     }
     moduleGroup.lessons.push(lesson);
   }
-  return [...tracks.values()];
+
+  // Prefer the catalogue order from TRACKS; unknown tracks append at the end.
+  const ordered: TrackGroup[] = [];
+  for (const meta of TRACKS) {
+    const track = tracks.get(meta.id);
+    if (!track) continue;
+    const moduleOrder = new Map(meta.modules.map((module, index) => [module.id, index]));
+    track.modules.sort((a, b) => (moduleOrder.get(a.id) ?? 999) - (moduleOrder.get(b.id) ?? 999));
+    ordered.push(track);
+    tracks.delete(meta.id);
+  }
+  ordered.push(...tracks.values());
+  return ordered;
 }
 
 async function readJson<T>(

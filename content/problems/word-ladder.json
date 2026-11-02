@@ -1,0 +1,36 @@
+{
+  "id": "word-ladder",
+  "title": "Word Ladder",
+  "difficulty": "hard",
+  "patterns": ["bfs"],
+  "statement": "Given two words `beginWord` and `endWord`, and a dictionary `wordList`, return the number of words in the shortest transformation sequence from beginWord to endWord.\nEach transformed word must exist in the word list. Only one letter can change at a time.\nReturn 0 if no such sequence exists.",
+  "hints": [
+    "Treat each word as a graph node. An edge exists when two words differ by one letter.",
+    "BFS from beginWord finds the shortest sequence length.",
+    "Generate neighbours by changing one character at a time and checking a set."
+  ],
+  "starterCode": {
+    "python": "def ladder_length(beginWord: str, endWord: str, wordList: list[str]) -> int:\n    pass",
+    "javascript": "function ladderLength(beginWord, endWord, wordList) {\n  // your code\n}"
+  },
+  "tests": [
+    {
+      "input": "\"hit\", \"cog\", [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]",
+      "output": "5",
+      "hidden": false
+    },
+    {
+      "input": "\"hit\", \"cog\", [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]",
+      "output": "0",
+      "hidden": false
+    }
+  ],
+  "solution": {
+    "approach": "BFS where each step tries all one-letter mutations present in the dictionary. Distance increments per hop.",
+    "complexity": "O(N * L * 26) time where N is word count and L is word length",
+    "code": {
+      "python": "from collections import deque\n\ndef ladder_length(beginWord, endWord, wordList):\n    words = set(wordList)\n    if endWord not in words:\n        return 0\n    q = deque([(beginWord, 1)])\n    while q:\n        word, dist = q.popleft()\n        if word == endWord:\n            return dist\n        for i in range(len(word)):\n            for ch in 'abcdefghijklmnopqrstuvwxyz':\n                nxt = word[:i] + ch + word[i+1:]\n                if nxt in words:\n                    words.remove(nxt)\n                    q.append((nxt, dist + 1))\n    return 0"
+    }
+  },
+  "analogy": "changing one letter on a Scrabble rack to reach a target word"
+}

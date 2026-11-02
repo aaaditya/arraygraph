@@ -1,0 +1,28 @@
+{
+  "id": "binary-search-quiz",
+  "title": "Binary search check",
+  "lesson": "binary-search",
+  "questions": [
+    {
+      "id": "bs-q1",
+      "prompt": "Binary search needs the input array to be:",
+      "options": ["Random", "Sorted", "Reversed only", "All unique always"],
+      "answer": 1,
+      "explain": "We decide which half to keep by comparing with the middle value. That only works when order is sorted."
+    },
+    {
+      "id": "bs-q2",
+      "prompt": "Worst-case comparisons for n = 1_000_000 is closest to:",
+      "options": ["20", "1000", "500000", "1000000"],
+      "answer": 0,
+      "explain": "log2(1e6) is about 20."
+    },
+    {
+      "id": "bs-q3",
+      "prompt": "If nums[mid] < target, what should you do?",
+      "options": ["high = mid - 1", "low = mid + 1", "return mid", "shuffle the array"],
+      "answer": 1,
+      "explain": "The target, if present, sits to the right of mid."
+    }
+  ]
+}

@@ -940,114 +940,119 @@ export const CHAPTERS: ChapterSpec[] = [
 ];
 
 // Track 2 patterns
-const PATTERNS: { slug: string; chapter: string; title: string; analogy: string; prereq: string[] }[] =
-  [
-    {
-      slug: "pattern-two-pointers",
-      chapter: "Ptn.1",
-      title: "Pattern: Two pointers",
-      analogy: "two friends walking a corridor",
-      prereq: ["two-pointers"],
-    },
-    {
-      slug: "pattern-sliding-window",
-      chapter: "Ptn.2",
-      title: "Pattern: Sliding window",
-      analogy: "train window on scenery",
-      prereq: ["sliding-window"],
-    },
-    {
-      slug: "pattern-prefix-hash",
-      chapter: "Ptn.3",
-      title: "Pattern: Prefix sum and hashmap",
-      analogy: "scoreboard plus name tags",
-      prereq: ["prefix-sums", "hash-map-basics"],
-    },
-    {
-      slug: "pattern-fast-slow",
-      chapter: "Ptn.4",
-      title: "Pattern: Fast and slow pointers",
-      analogy: "tortoise and hare",
-      prereq: ["fast-slow-pointers"],
-    },
-    {
-      slug: "pattern-binary-search",
-      chapter: "Ptn.5",
-      title: "Pattern: Binary search",
-      analogy: "guessing game on answers",
-      prereq: ["binary-search"],
-    },
-    {
-      slug: "pattern-monotonic-stack",
-      chapter: "Ptn.6",
-      title: "Pattern: Monotonic stack",
-      analogy: "cinema screen sight lines",
-      prereq: ["monotonic-stack"],
-    },
-    {
-      slug: "pattern-heap-topk",
-      chapter: "Ptn.7",
-      title: "Pattern: Heap and Top-K",
-      analogy: "live leaderboard",
-      prereq: ["top-k"],
-    },
-    {
-      slug: "pattern-intervals",
-      chapter: "Ptn.8",
-      title: "Pattern: Intervals",
-      analogy: "meeting room bookings",
-      prereq: ["interval-scheduling"],
-    },
-    {
-      slug: "pattern-bfs",
-      chapter: "Ptn.9",
-      title: "Pattern: BFS",
-      analogy: "fewest hops to a friend",
-      prereq: ["bfs-basics"],
-    },
-    {
-      slug: "pattern-dfs-backtracking",
-      chapter: "Ptn.10",
-      title: "Pattern: DFS and backtracking",
-      analogy: "maze with undo",
-      prereq: ["backtracking"],
-    },
-    {
-      slug: "pattern-topo-sort",
-      chapter: "Ptn.11",
-      title: "Pattern: Topological sort",
-      analogy: "dressing in order",
-      prereq: ["topological-sort"],
-    },
-    {
-      slug: "pattern-union-find",
-      chapter: "Ptn.12",
-      title: "Pattern: Union-Find",
-      analogy: "merging friend circles",
-      prereq: ["union-find"],
-    },
-    {
-      slug: "pattern-dp",
-      chapter: "Ptn.13",
-      title: "Pattern: Dynamic programming",
-      analogy: "not redoing homework",
-      prereq: ["dp-recipe"],
-    },
-    {
-      slug: "pattern-greedy",
-      chapter: "Ptn.14",
-      title: "Pattern: Greedy",
-      analogy: "biggest safe coin grab",
-      prereq: ["greedy-basics"],
-    },
-    {
-      slug: "pattern-trie-bits",
-      chapter: "Ptn.15",
-      title: "Pattern: Trie and bits",
-      analogy: "contacts and light switches",
-      prereq: ["trie-basics", "bit-manipulation"],
-    },
-  ];
+const PATTERNS: {
+  slug: string;
+  chapter: string;
+  title: string;
+  analogy: string;
+  prereq: string[];
+}[] = [
+  {
+    slug: "pattern-two-pointers",
+    chapter: "Ptn.1",
+    title: "Pattern: Two pointers",
+    analogy: "two friends walking a corridor",
+    prereq: ["two-pointers"],
+  },
+  {
+    slug: "pattern-sliding-window",
+    chapter: "Ptn.2",
+    title: "Pattern: Sliding window",
+    analogy: "train window on scenery",
+    prereq: ["sliding-window"],
+  },
+  {
+    slug: "pattern-prefix-hash",
+    chapter: "Ptn.3",
+    title: "Pattern: Prefix sum and hashmap",
+    analogy: "scoreboard plus name tags",
+    prereq: ["prefix-sums", "hash-map-basics"],
+  },
+  {
+    slug: "pattern-fast-slow",
+    chapter: "Ptn.4",
+    title: "Pattern: Fast and slow pointers",
+    analogy: "tortoise and hare",
+    prereq: ["fast-slow-pointers"],
+  },
+  {
+    slug: "pattern-binary-search",
+    chapter: "Ptn.5",
+    title: "Pattern: Binary search",
+    analogy: "guessing game on answers",
+    prereq: ["binary-search"],
+  },
+  {
+    slug: "pattern-monotonic-stack",
+    chapter: "Ptn.6",
+    title: "Pattern: Monotonic stack",
+    analogy: "cinema screen sight lines",
+    prereq: ["monotonic-stack"],
+  },
+  {
+    slug: "pattern-heap-topk",
+    chapter: "Ptn.7",
+    title: "Pattern: Heap and Top-K",
+    analogy: "live leaderboard",
+    prereq: ["top-k"],
+  },
+  {
+    slug: "pattern-intervals",
+    chapter: "Ptn.8",
+    title: "Pattern: Intervals",
+    analogy: "meeting room bookings",
+    prereq: ["interval-scheduling"],
+  },
+  {
+    slug: "pattern-bfs",
+    chapter: "Ptn.9",
+    title: "Pattern: BFS",
+    analogy: "fewest hops to a friend",
+    prereq: ["bfs-basics"],
+  },
+  {
+    slug: "pattern-dfs-backtracking",
+    chapter: "Ptn.10",
+    title: "Pattern: DFS and backtracking",
+    analogy: "maze with undo",
+    prereq: ["backtracking"],
+  },
+  {
+    slug: "pattern-topo-sort",
+    chapter: "Ptn.11",
+    title: "Pattern: Topological sort",
+    analogy: "dressing in order",
+    prereq: ["topological-sort"],
+  },
+  {
+    slug: "pattern-union-find",
+    chapter: "Ptn.12",
+    title: "Pattern: Union-Find",
+    analogy: "merging friend circles",
+    prereq: ["union-find"],
+  },
+  {
+    slug: "pattern-dp",
+    chapter: "Ptn.13",
+    title: "Pattern: Dynamic programming",
+    analogy: "not redoing homework",
+    prereq: ["dp-recipe"],
+  },
+  {
+    slug: "pattern-greedy",
+    chapter: "Ptn.14",
+    title: "Pattern: Greedy",
+    analogy: "biggest safe coin grab",
+    prereq: ["greedy-basics"],
+  },
+  {
+    slug: "pattern-trie-bits",
+    chapter: "Ptn.15",
+    title: "Pattern: Trie and bits",
+    analogy: "contacts and light switches",
+    prereq: ["trie-basics", "bit-manipulation"],
+  },
+];
 
 for (const pattern of PATTERNS) {
   CHAPTERS.push(
@@ -1075,13 +1080,23 @@ const SD_BLOCKS: [string, string, string, string][] = [
   ["S5", "sd-caching", "Caching", "today's specials board"],
   ["S6", "sd-load-balancing", "Load balancing", "the host seating guests"],
   ["S7", "sd-scaling", "Scaling", "one bigger chef vs more chefs"],
-  ["S8", "sd-replication-sharding", "Replication and sharding", "photocopies vs splitting the book"],
+  [
+    "S8",
+    "sd-replication-sharding",
+    "Replication and sharding",
+    "photocopies vs splitting the book",
+  ],
   ["S9", "sd-cap-consistency", "CAP theorem and consistency", "two bank branches that must agree"],
   ["S10", "sd-queues-pubsub", "Queues and pub/sub", "order slips on the kitchen rail"],
   ["S11", "sd-cdn-storage", "CDN and object storage", "neighborhood kiosks"],
   ["S12", "sd-rate-limiting", "Rate limiting and API gateway", "the bouncer"],
   ["S13", "sd-auth-security", "Auth and security basics", "ID check at the door"],
-  ["S14", "sd-monolith-microservices", "Monolith vs microservices", "one kitchen vs food-court stalls"],
+  [
+    "S14",
+    "sd-monolith-microservices",
+    "Monolith vs microservices",
+    "one kitchen vs food-court stalls",
+  ],
   ["S15", "sd-reliability", "Reliability and observability", "fire alarms and health checks"],
   ["S16", "sd-estimation", "Back-of-envelope estimation", "counting rice grains"],
 ];

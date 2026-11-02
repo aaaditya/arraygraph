@@ -4,61 +4,154 @@ track: dsa-core
 module: graphs
 chapter: "10.2"
 title: "BFS: fewest hops"
-summary: "Draft stub for BFS: fewest hops. Analogy: fewest hops to a friend."
+summary: "Reach a friend with the fewest hops. Breadth-first search explores level by level using a queue."
 level: beginner
-minutes: 12
-status: draft
+minutes: 16
+status: ready
 prerequisites: [graph-basics]
 patterns: [bfs]
 xp: 40
-analogy: "fewest hops to a friend"
-tags: [graph, bfs]
+analogy: fewest hops to a friend
+tags: [graph, bfs, queue, shortest-path]
 ---
 
 ## What you will learn
-- The core idea in plain words.
-- How the analogy maps to the structure.
-- One small practice step.
+- How a queue explores neighbours level by level.
+- Why BFS finds the fewest hops when every edge costs one.
+- The visited set that stops us looping forever.
 
 ## The story
-<Analogy title='fewest hops to a friend'>
-This chapter is being written. The everyday picture is **fewest hops to a friend**.
-When the full lesson lands, you will meet the idea with a story first, then a visual, then code.
+<Analogy emoji='🗺️' title='Fewest hops to a friend'>
+You want the shortest chain of friends to reach Riya.
+First you ask your direct friends. That is level 1.
+Then you ask *their* friends you have not met. That is level 2.
+You never skip ahead. The first time you meet Riya is the shortest hop count.
+A queue keeps the order fair: first person in line gets asked first.
 </Analogy>
 
+Ripples in a pond spread the same way. Closest rings first.
+
 ## See it move
-Coming soon.
+Start at A. Watch the queue and the visited set grow.
+
+<Visualizer type='graph' initial={['A-B', 'A-C', 'B-D', 'C-D', 'C-E']} ops={['bfs A']} showPseudocode />
 
 ## Do it by hand
-A hand-trace exercise will live here.
+<Trace title='Trace this' input='edges A-B, A-C, B-D; start A' answer='A, B, C, D' answerLabel='BFS visit order' hint='Enqueue neighbours left-to-right. Skip anyone already visited.' />
 
 ## Now the code
-Code tabs in five languages will land with the full chapter.
+Store the graph as an adjacency list. Use a queue and a visited set.
+
+<CodeTabs
+python={`from collections import deque
+
+def bfs(graph, start):
+    queue = deque([start])
+    visited = {start}
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbour in graph[node]:
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append(neighbour)
+    return order`}
+javascript={`function bfs(graph, start) {
+  const queue = [start];
+  const visited = new Set([start]);
+  const order = [];
+  while (queue.length) {
+    const node = queue.shift();
+    order.push(node);
+    for (const neighbour of graph[node] || []) {
+      if (!visited.has(neighbour)) {
+        visited.add(neighbour);
+        queue.push(neighbour);
+      }
+    }
+  }
+  return order;
+}`}
+java={`List<String> bfs(Map<String, List<String>> graph, String start) {
+    Queue<String> queue = new ArrayDeque<>();
+    Set<String> visited = new HashSet<>();
+    List<String> order = new ArrayList<>();
+    queue.add(start);
+    visited.add(start);
+    while (!queue.isEmpty()) {
+        String node = queue.remove();
+        order.add(node);
+        for (String neighbour : graph.getOrDefault(node, List.of())) {
+            if (visited.add(neighbour)) queue.add(neighbour);
+        }
+    }
+    return order;
+}`}
+cpp={`vector<string> bfs(unordered_map<string, vector<string>>& graph, string start) {
+    queue<string> q;
+    unordered_set<string> visited;
+    vector<string> order;
+    q.push(start);
+    visited.insert(start);
+    while (!q.empty()) {
+        string node = q.front(); q.pop();
+        order.push_back(node);
+        for (auto& neighbour : graph[node]) {
+            if (!visited.count(neighbour)) {
+                visited.insert(neighbour);
+                q.push(neighbour);
+            }
+        }
+    }
+    return order;
+}`}
+csharp={`List<string> Bfs(Dictionary<string, List<string>> graph, string start)
+{
+    var queue = new Queue<string>();
+    var visited = new HashSet<string> { start };
+    var order = new List<string>();
+    queue.Enqueue(start);
+    while (queue.Count > 0)
+    {
+        var node = queue.Dequeue();
+        order.Add(node);
+        foreach (var neighbour in graph.GetValueOrDefault(node, new List<string>()))
+        {
+            if (visited.Add(neighbour)) queue.Enqueue(neighbour);
+        }
+    }
+    return order;
+}`}
+/>
 
 ## How fast is it?
-Complexity notes are coming soon.
+<Complexity time='O(V + E)' space='O(V)' why='We touch each vertex and each edge a constant number of times, and the queue holds at most V nodes.' />
 
 ## Common mistakes
-- Skipping the analogy and jumping straight to code
-- Memorising steps without tracing a tiny example
+- Forgetting the visited set and looping forever on cycles.
+- Using a stack by accident (that becomes DFS).
+- Claiming BFS always finds the fastest *time* path. It finds fewest hops when every edge weighs one.
+- Mutating the adjacency list while iterating.
 
 ## Interview angle
 <InterviewTip>
-Interviewers want to hear how you map fewest hops to a friend to the real structure. Practice saying it out loud.
+Clues for BFS: "shortest path", "minimum steps", "level by level", grids with equal move cost.
+Expect Rotting Oranges, Word Ladder, and grid shortest path follow-ups. Mention the queue and visited set early.
 </InterviewTip>
 
 ## Checkpoint
-A quick check question will appear here.
+<Checkpoint question='On an unweighted graph, what does the first time BFS reaches a node tell you?' options={['Nothing useful', 'The fewest number of edges from the start', 'The heaviest path', 'That DFS would be faster']} answer={1} explain='Because BFS expands one hop at a time, the first visit is the shortest hop distance.' />
 
 ## Practice
-Practice problems will be linked when this chapter is ready.
+<Problems ids={['rotting-oranges', 'word-ladder', 'shortest-path-binary-matrix']} />
 
 ## Quiz
-A short quiz will unlock with the full chapter.
+<Quiz id='bfs-basics-quiz' />
 
 ## Recap
-<Recap>
-**BFS: fewest hops** starts from fewest hops to a friend.
-This draft keeps your place in the roadmap.
-Come back when the status flips to ready.
+<Recap next='dfs-components' nextTitle='DFS and components'>
+- BFS explores friends level by level using a queue.
+- The visited set stops cycles.
+- First time you reach a node is the fewest hops when edges are equal.
 </Recap>
