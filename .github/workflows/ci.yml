@@ -11,6 +11,7 @@ concurrency:
 
 env:
   DATABASE_URL: postgresql://visualdsa:visualdsa@localhost:5432/visualdsa?schema=public
+  DATABASE_URL_UNPOOLED: postgresql://visualdsa:visualdsa@localhost:5432/visualdsa?schema=public
   AUTH_SECRET: ci-only-secret-that-is-at-least-32-characters-long
   AUTH_TRUST_HOST: "true"
   FEATURE_AI_MOCK: "false"
