@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOutIcon, UserIcon } from "lucide-react";
+import { LayoutDashboardIcon, LogOutIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
@@ -29,11 +29,13 @@ export function UserNav() {
   if (status === "loading") return <Skeleton className="size-9 rounded-full" />;
 
   if (!session?.user) {
-    const callbackUrl =
-      pathname.startsWith("/signin") || pathname.startsWith("/signup") ? "/learn" : pathname;
+    const authPaths = ["/login", "/signin", "/signup", "/forgot-password", "/reset-password"];
+    const callbackUrl = authPaths.some((path) => pathname.startsWith(path))
+      ? "/dashboard"
+      : pathname;
     return (
       <Button asChild size="sm">
-        <Link href={`/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`}>Sign in</Link>
+        <Link href={`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`}>Sign in</Link>
       </Button>
     );
   }
@@ -58,8 +60,13 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/profile">
-            <UserIcon aria-hidden="true" /> Profile
+          <Link href="/dashboard">
+            <LayoutDashboardIcon aria-hidden="true" /> Dashboard
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/account">
+            <UserIcon aria-hidden="true" /> Account
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => void signOut({ redirectTo: "/" })}>

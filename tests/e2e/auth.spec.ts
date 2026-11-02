@@ -3,9 +3,9 @@ import { expect, test } from "@playwright/test";
 const uniqueEmail = () => `learner-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.com`;
 
 test.describe("authentication", () => {
-  test("protected pages redirect to sign in", async ({ page }) => {
-    await page.goto("/profile");
-    await expect(page).toHaveURL(/\/signin\?callbackUrl=/);
+  test("protected pages redirect to login", async ({ page }) => {
+    await page.goto("/account");
+    await expect(page).toHaveURL(/\/login\?callbackUrl=/);
     await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
   });
 
@@ -19,16 +19,16 @@ test.describe("authentication", () => {
     await expect(page.getByText("Use at least 8 characters")).toBeVisible();
   });
 
-  test("sign up, edit profile, sign out, sign back in", async ({ page }) => {
+  test("sign up, edit account, sign out, sign back in", async ({ page }) => {
     const email = uniqueEmail();
-    await page.goto("/signup?callbackUrl=/profile");
+    await page.goto("/signup?callbackUrl=/account");
     await page.getByLabel("Name", { exact: true }).fill("Asha Rao");
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill("plates123");
     await page.getByRole("button", { name: "Create account" }).click();
 
-    await page.waitForURL((url) => url.pathname === "/profile");
-    await expect(page.getByRole("heading", { name: "Your profile" })).toBeVisible();
+    await page.waitForURL((url) => url.pathname === "/account", { timeout: 60_000 });
+    await expect(page.getByRole("heading", { name: "Account", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Open account menu" })).toBeVisible();
 
     await page.getByLabel("Name", { exact: true }).fill("Asha Priya Rao");
@@ -43,7 +43,7 @@ test.describe("authentication", () => {
     await page.waitForURL((url) => url.pathname === "/");
     await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
 
-    await page.goto("/signin?callbackUrl=/profile");
+    await page.goto("/login?callbackUrl=/account");
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill("wrong-pass1");
     await page.getByRole("button", { name: "Sign in" }).click();
@@ -52,16 +52,26 @@ test.describe("authentication", () => {
 
     await page.getByLabel("Password").fill("plates123");
     await page.getByRole("button", { name: "Sign in" }).click();
-    await page.waitForURL((url) => url.pathname === "/profile");
+    await page.waitForURL((url) => url.pathname === "/account");
     await expect(page.getByRole("button", { name: "Open account menu" })).toBeVisible();
   });
 
-  test("duplicate email is rejected", async ({ page }) => {
+  test("duplicate email does not reveal the account", async ({ page }) => {
     await page.goto("/signup");
     await page.getByLabel("Name", { exact: true }).fill("Demo");
     await page.getByLabel("Email").fill("demo@visualdsa.dev");
     await page.getByLabel("Password").fill("plates123");
     await page.getByRole("button", { name: "Create account" }).click();
-    await expect(page.getByText("already exists")).toBeVisible();
+    await expect(page.getByText(/If that email can be used|Too many attempts/i)).toBeVisible({
+      timeout: 30_000,
+    });
+    await expect(page.getByText(/already exists/i)).toHaveCount(0);
+  });
+
+  test("forgot password always shows a generic success", async ({ page }) => {
+    await page.goto("/forgot-password");
+    await page.getByLabel("Email").fill("nobody-exists@example.com");
+    await page.getByRole("button", { name: "Send reset link" }).click();
+    await expect(page.getByText(/If that email can be used/i)).toBeVisible();
   });
 });

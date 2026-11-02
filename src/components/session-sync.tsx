@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 
-const AUTH_PAGES = /^\/(signin|signup)(\/|$)/;
+const AUTH_PAGES = /^\/(login|signin|signup|forgot-password|reset-password|verify-email)(\/|$)/;
 
 /**
  * Sign-in and sign-up run as server actions that redirect on the server, so the client session

@@ -5,6 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function absoluteUrl(path: string, base: string) {
+export function absoluteUrl(
+  path: string,
+  base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+) {
   return new URL(path, base).toString();
 }

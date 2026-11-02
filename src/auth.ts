@@ -31,6 +31,7 @@ const providers: Provider[] = [
         image: user.image,
         role: user.role,
         username: user.username,
+        sessionVersion: user.sessionVersion,
       };
     },
   }),
@@ -66,17 +67,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig.callbacks,
     async jwt(params) {
       const token = await authConfig.callbacks.jwt(params);
-      if (params.trigger === "update" && token.id) {
+      if (!token?.id) return token;
+
+      // Re-check on session.update() so "sign out everywhere" / password changes
+      // invalidate other devices when they refresh their session.
+      if (params.trigger === "update") {
         const fresh = await db.user.findUnique({
           where: { id: token.id },
-          select: { name: true, username: true, role: true, image: true },
+          select: {
+            name: true,
+            username: true,
+            role: true,
+            image: true,
+            sessionVersion: true,
+          },
         });
-        if (fresh) {
-          token.name = fresh.name;
-          token.username = fresh.username;
-          token.role = fresh.role;
-          token.picture = fresh.image;
+        if (!fresh) return null;
+        if (
+          typeof token.sessionVersion === "number" &&
+          fresh.sessionVersion !== token.sessionVersion
+        ) {
+          return null;
         }
+        token.name = fresh.name;
+        token.username = fresh.username;
+        token.role = fresh.role;
+        token.picture = fresh.image;
+        token.sessionVersion = fresh.sessionVersion;
       }
       return token;
     },

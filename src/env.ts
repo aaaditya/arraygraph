@@ -29,6 +29,9 @@ export const envSchema = z
     AUTH_GOOGLE_SECRET: optionalSecret,
     FEATURE_AI_MOCK: booleanFlag,
     NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
+    /** Optional Resend key. When unset, ConsoleMailer logs links to the server console. */
+    RESEND_API_KEY: optionalSecret,
+    MAIL_FROM: z.string().trim().default("VisualDSA <onboarding@resend.dev>"),
   })
   .superRefine((env, ctx) => {
     const pairs = [
