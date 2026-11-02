@@ -20,7 +20,7 @@ export function SiteFooter() {
             </li>
             <li>
               <Link
-                href="/visualizers/stack"
+                href="/visualizers"
                 className="hover:text-foreground underline-offset-4 hover:underline"
               >
                 Visualizers

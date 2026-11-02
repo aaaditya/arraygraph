@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllLessons } from "@/lib/content/loader";
 import { siteConfig } from "@/lib/site";
 
-const staticRoutes = ["/", "/learn", "/visualizers/stack"];
+const staticRoutes = ["/", "/learn", "/visualizers", "/visualizers/stack"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

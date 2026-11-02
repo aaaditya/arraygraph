@@ -11,5 +11,5 @@ export type NavItem = { href: string; label: string };
 
 export const mainNav: NavItem[] = [
   { href: "/learn", label: "Learn" },
-  { href: "/visualizers/stack", label: "Visualizers" },
+  { href: "/visualizers", label: "Visualizers" },
 ];

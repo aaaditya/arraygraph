@@ -23,3 +23,10 @@ if (typeof window !== "undefined" && !window.matchMedia) {
     }),
   });
 }
+
+// Radix primitives (e.g. Slider) measure themselves; jsdom has no ResizeObserver.
+globalThis.ResizeObserver ??= class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};

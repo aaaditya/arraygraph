@@ -191,12 +191,12 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 
 ### Phase 6: Stack visualizer (reference visualizer)
 
-- [ ] Pure engine `buildStackFrames` with unit tests (push, pop, peek, empty-pop error frame)
-- [ ] Generic player: play, pause, step, back, reset, speed, scrubber
-- [ ] Keyboard: Space play/pause, ←/→ step, Home reset, End jump to last, +/- speed
-- [ ] Highlighted pseudocode line, `aria-live` captions, reduced-motion support
-- [ ] Stack view with Framer Motion; `/visualizers/stack` playground with custom ops input
-- [ ] Used inside the Stack lesson via `<Visualizer type='stack' />`
+- [x] Pure engine `buildStackFrames` with unit tests (push, pop, peek, empty-pop error frame)
+- [x] Generic player: play, pause, step, back, reset, speed, scrubber
+- [x] Keyboard: Space play/pause, ←/→ step, Home reset, End jump to last, +/- speed
+- [x] Highlighted pseudocode line, `aria-live` captions, reduced-motion support
+- [x] Stack view with Framer Motion; `/visualizers/stack` playground with custom ops input
+- [x] Used inside the Stack lesson via `<Visualizer type='stack' />`
 
 **Foundation stops here.**
 

@@ -1,6 +1,7 @@
 "use client";
 
 import type * as React from "react";
+import { StackVisualizer } from "./stack/stack-visualizer";
 
 export type VisualizerProps = {
   initial?: unknown[];
@@ -24,4 +25,6 @@ export type VisualizerType = (typeof VISUALIZER_TYPES)[number];
 
 export const visualizerRegistry: Partial<
   Record<VisualizerType, React.ComponentType<VisualizerProps>>
-> = {};
+> = {
+  stack: StackVisualizer,
+};

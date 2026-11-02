@@ -12,6 +12,7 @@ describe("isActivePath", () => {
 
   it("matches nested routes within the same section", () => {
     expect(isActivePath("/learn/stack-basics", "/learn")).toBe(true);
+    expect(isActivePath("/visualizers/queue", "/visualizers")).toBe(true);
     expect(isActivePath("/visualizers/queue", "/visualizers/stack")).toBe(true);
     expect(isActivePath("/learning", "/learn")).toBe(false);
   });
@@ -23,7 +24,7 @@ describe("MainNav", () => {
       <MainNav
         items={[
           { href: "/learn", label: "Learn" },
-          { href: "/visualizers/stack", label: "Visualizers" },
+          { href: "/visualizers", label: "Visualizers" },
         ]}
       />,
     );
