@@ -27,9 +27,7 @@ test.describe("lesson engine", () => {
     ]) {
       await expect(page.getByRole("heading", { level: 2, name: section })).toBeVisible();
     }
-    await expect(
-      page.getByRole("link", { name: "Arrays and Indexing: The Locker Row", exact: true }),
-    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /Arrays and indexing/i })).toBeVisible();
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(results.violations).toEqual([]);
   });

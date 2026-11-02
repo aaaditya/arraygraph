@@ -1,0 +1,29 @@
+{
+  "id": "first-last-position",
+  "title": "Find First and Last Position",
+  "difficulty": "medium",
+  "patterns": ["binary-search"],
+  "statement": "Given a sorted array `nums` that may contain duplicates and a `target`, return the starting and ending positions of `target`.\nIf target is not found, return `[-1, -1]`.\nYour algorithm must run in O(log n) time.",
+  "hints": [
+    "Run binary search twice: once for the leftmost index, once for the rightmost.",
+    "When you find target while seeking the left edge, keep searching left (high = mid - 1).",
+    "When seeking the right edge, keep searching right (low = mid + 1)."
+  ],
+  "starterCode": {
+    "python": "def search_range(nums: list[int], target: int) -> list[int]:\n    pass",
+    "javascript": "function searchRange(nums, target) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "[5,7,7,8,8,10], 8", "output": "[3,4]", "hidden": false },
+    { "input": "[5,7,7,8,8,10], 6", "output": "[-1,-1]", "hidden": false },
+    { "input": "[], 0", "output": "[-1,-1]", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Two binary searches. Left bias continues left after a match; right bias continues right. Combine the two indices.",
+    "complexity": "O(log n) time, O(1) space",
+    "code": {
+      "python": "def search_range(nums, target):\n    def bound(left_bias):\n        low, high, ans = 0, len(nums) - 1, -1\n        while low <= high:\n            mid = low + (high - low) // 2\n            if nums[mid] == target:\n                ans = mid\n                if left_bias:\n                    high = mid - 1\n                else:\n                    low = mid + 1\n            elif nums[mid] < target:\n                low = mid + 1\n            else:\n                high = mid - 1\n        return ans\n    return [bound(True), bound(False)]"
+    }
+  },
+  "analogy": "finding the first and last matching jersey number on a sorted roster"
+}

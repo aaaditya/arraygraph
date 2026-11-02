@@ -202,13 +202,14 @@ Process per phase: implement, run `pnpm lint`, `pnpm typecheck`, `pnpm test` (an
 
 ### Phase 7: Content scaffolding and roadmap
 
-- [ ] Generate `.mdx` stubs (status: draft) for every chapter in `docs/CURRICULUM.md`
-- [ ] Fully write 7.1 Binary Search and 10.2 BFS
-- [ ] Roadmap page: tracks, modules, prerequisites, lock/unlock, progress rings, Coming soon labels
+- [x] Generate `.mdx` stubs (status: draft) for every chapter in `docs/CURRICULUM.md`
+- [x] Fully write 7.1 Binary Search and 10.2 BFS (Stack 5.1 already ready)
+- [x] Roadmap page: tracks, modules, prerequisites, lock/unlock, progress rings, Coming soon labels
 
 ### Phase 8: Remaining visualizers
 
-- [ ] Queue, linked list, hash map, binary search, trees (traversals, BST), graphs (BFS/DFS), sorting (bubble, selection, insertion, merge, quick)
+- [x] Queue, linked list, hash map, binary search, graphs (BFS/DFS), sorting race
+- [ ] Trees (traversals, BST) — later
 
 ### Phase 9: Pattern practice
 

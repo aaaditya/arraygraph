@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 
 const visualizers = [
   { slug: "stack", title: "Stack", analogy: "Pile of plates", ready: true },
-  { slug: "queue", title: "Queue", analogy: "Chai stall line", ready: false },
-  { slug: "linked-list", title: "Linked list", analogy: "Treasure hunt clues", ready: false },
-  { slug: "hash-map", title: "Hash map", analogy: "School cupboard shelves", ready: false },
-  { slug: "binary-search", title: "Binary search", analogy: "Guess the number", ready: false },
+  { slug: "queue", title: "Queue", analogy: "Chai stall line", ready: true },
+  { slug: "linked-list", title: "Linked list", analogy: "Treasure hunt clues", ready: true },
+  { slug: "hash-map", title: "Hash map", analogy: "School cupboard shelves", ready: true },
+  { slug: "binary-search", title: "Binary search", analogy: "Guess the number", ready: true },
   { slug: "tree", title: "Trees", analogy: "Family tree", ready: false },
-  { slug: "graph", title: "Graphs: BFS and DFS", analogy: "Ripples and caves", ready: false },
-  { slug: "sorting", title: "Sorting", analogy: "Arranging playing cards", ready: false },
+  { slug: "graph", title: "Graphs: BFS and DFS", analogy: "Ripples and caves", ready: true },
+  { slug: "sorting", title: "Sorting", analogy: "Arranging playing cards", ready: true },
 ];
 
 export default function VisualizersPage() {

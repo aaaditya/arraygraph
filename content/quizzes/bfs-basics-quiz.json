@@ -1,0 +1,38 @@
+{
+  "id": "bfs-basics-quiz",
+  "title": "BFS check",
+  "lesson": "bfs-basics",
+  "questions": [
+    {
+      "id": "bfs-q1",
+      "prompt": "Which structure does classic BFS use for the frontier?",
+      "options": ["Stack", "Queue", "Heap only", "Hash set only"],
+      "answer": 1,
+      "explain": "A queue keeps the order fair: first discovered, first explored."
+    },
+    {
+      "id": "bfs-q2",
+      "prompt": "On an unweighted graph, the first time BFS visits a node is:",
+      "options": [
+        "A random path",
+        "The fewest edges from the start",
+        "Always the DFS path",
+        "Impossible to know"
+      ],
+      "answer": 1,
+      "explain": "BFS expands one hop at a time, so the first visit is shortest in hops."
+    },
+    {
+      "id": "bfs-q3",
+      "prompt": "Why do we keep a visited set?",
+      "options": [
+        "To sort the nodes",
+        "To avoid revisiting nodes and infinite loops on cycles",
+        "To compute weights",
+        "To replace the queue"
+      ],
+      "answer": 1,
+      "explain": "Without visited, cycles send you around forever."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "binary-search",
+  "title": "Binary Search",
+  "difficulty": "easy",
+  "patterns": ["binary-search"],
+  "statement": "Given a sorted array of distinct integers `nums` and an integer `target`, return the index of `target` if it is in `nums`. Otherwise return `-1`.\nYou must write an algorithm with O(log n) runtime.",
+  "hints": [
+    "Keep two pointers at the ends of the range you still need to search.",
+    "Compare the middle value to the target and throw away half the range.",
+    "Stop when low passes high. That means the target is missing."
+  ],
+  "starterCode": {
+    "python": "def search(nums: list[int], target: int) -> int:\n    pass",
+    "javascript": "function search(nums, target) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "[-1,0,3,5,9,12], 9", "output": "4", "hidden": false },
+    { "input": "[-1,0,3,5,9,12], 2", "output": "-1", "hidden": false },
+    { "input": "[5], 5", "output": "0", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Classic binary search on a sorted array. Mid = low + (high - low) // 2. Move low or high until the range is empty.",
+    "complexity": "O(log n) time, O(1) space",
+    "code": {
+      "python": "def search(nums, target):\n    low, high = 0, len(nums) - 1\n    while low <= high:\n        mid = low + (high - low) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1"
+    }
+  },
+  "analogy": "guessing a number from 1 to 100"
+}

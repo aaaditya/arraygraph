@@ -1,0 +1,131 @@
+---
+slug: binary-search
+track: dsa-core
+module: searching-sorting
+chapter: "7.1"
+title: "Linear vs binary search"
+summary: "Guess the number from 1 to 100. Learn why cutting the search space in half beats checking one by one."
+level: beginner
+minutes: 14
+status: ready
+prerequisites: [arrays-basics, big-o-ladder]
+patterns: [binary-search]
+xp: 40
+analogy: number guessing game from 1 to 100
+tags: [binary-search, search, logarithmic]
+---
+
+## What you will learn
+- Why checking every locker is slow.
+- How binary search cuts the range in half each time.
+- The three pointers: low, mid and high.
+
+## The story
+<Analogy emoji='🔢' title='Guess my number'>
+I pick a secret number from 1 to 100.
+You may ask: "Is it 50?" I say higher or lower.
+Each good guess throws away half the remaining numbers.
+After about seven guesses you can pin any number up to 100.
+Checking 1, then 2, then 3 would take up to 100 tries. That is linear search.
+</Analogy>
+
+A sorted row of lockers works the same way. Always open the middle locker first.
+
+## See it move
+Watch low and high shrink until mid lands on the target.
+
+<Visualizer type='binary-search' initial={[2, 5, 8, 12, 16, 23, 38, 56, 72, 91]} ops={['search 23']} showPseudocode />
+
+## Do it by hand
+<Trace title='Trace this' input='array [1,3,5,7,9], search 7' answer='index 3' answerLabel='Which index holds 7?' hint='Start mid at the middle. Compare, then keep the half that still can hold 7.' />
+
+## Now the code
+The array must already be sorted. Mid is the floor of (low + high) / 2.
+
+<CodeTabs
+python={`def binary_search(nums, target):
+    low, high = 0, len(nums) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1`}
+javascript={`function binarySearch(nums, target) {
+  let low = 0;
+  let high = nums.length - 1;
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (nums[mid] === target) return mid;
+    if (nums[mid] < target) low = mid + 1;
+    else high = mid - 1;
+  }
+  return -1;
+}`}
+java={`int binarySearch(int[] nums, int target) {
+    int low = 0, high = nums.length - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[mid] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}`}
+cpp={`int binarySearch(const std::vector<int>& nums, int target) {
+    int low = 0, high = (int)nums.size() - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[mid] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}`}
+csharp={`int BinarySearch(int[] nums, int target)
+{
+    int low = 0, high = nums.Length - 1;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[mid] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}`}
+/>
+
+## How fast is it?
+<Complexity time='O(log n)' space='O(1)' why='Each step throws away half the remaining items, so we only need about log2(n) looks.' />
+
+## Common mistakes
+- Forgetting the array must be sorted first.
+- Using `(low + high) / 2` in languages where that can overflow. Prefer `low + (high - low) / 2`.
+- Writing `while low < high` and missing the last element. Use `<=` when both ends are inclusive.
+- Updating `low = mid` instead of `mid + 1`, which can loop forever.
+
+## Interview angle
+<InterviewTip>
+Interviewers listen for the word **sorted**. If the data is sorted, or you can sort the answer space, binary search is often the tool.
+Follow-ups: first and last occurrence, search in a rotated array, and binary search on the answer (Koko eating bananas).
+</InterviewTip>
+
+## Checkpoint
+<Checkpoint question='A sorted array has 64 items. About how many mid checks does binary search need in the worst case?' options={['2', '6', '32', '64']} answer={1} explain='log2(64) is 6. Each check halves the range.' />
+
+## Practice
+<Problems ids={['binary-search', 'search-insert-position', 'first-last-position']} />
+
+## Quiz
+<Quiz id='binary-search-quiz' />
+
+## Recap
+<Recap next='binary-search-variations' nextTitle='Binary search variations'>
+- Linear search checks one by one. Binary search cuts the range in half.
+- Keep three pointers: low, mid, high.
+- Only works on sorted data, and it is O(log n).
+</Recap>

@@ -20,6 +20,14 @@ export function SiteFooter() {
             </li>
             <li>
               <Link
+                href="/roadmap"
+                className="hover:text-foreground underline-offset-4 hover:underline"
+              >
+                Roadmap
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/visualizers"
                 className="hover:text-foreground underline-offset-4 hover:underline"
               >

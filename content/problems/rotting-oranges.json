@@ -1,0 +1,29 @@
+{
+  "id": "rotting-oranges",
+  "title": "Rotting Oranges",
+  "difficulty": "medium",
+  "patterns": ["bfs"],
+  "statement": "You are given an `m x n` grid where each cell can be empty (0), fresh orange (1), or rotten orange (2).\nEvery minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.\nReturn the minimum minutes until no cell has a fresh orange. If impossible, return `-1`.",
+  "hints": [
+    "Multi-source BFS: put every initially rotten orange in the queue at minute 0.",
+    "Count fresh oranges. Each time you rot one, decrease the count.",
+    "If fresh oranges remain when the queue empties, return -1."
+  ],
+  "starterCode": {
+    "python": "def oranges_rotting(grid: list[list[int]]) -> int:\n    pass",
+    "javascript": "function orangesRotting(grid) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "[[2,1,1],[1,1,0],[0,1,1]]", "output": "4", "hidden": false },
+    { "input": "[[2,1,1],[0,1,1],[1,0,1]]", "output": "-1", "hidden": false },
+    { "input": "[[0,2]]", "output": "0", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Enqueue all rotten oranges. BFS level by level; each level is one minute. Track remaining fresh count.",
+    "complexity": "O(m*n) time, O(m*n) space",
+    "code": {
+      "python": "from collections import deque\n\ndef oranges_rotting(grid):\n    rows, cols = len(grid), len(grid[0])\n    q = deque()\n    fresh = 0\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == 2:\n                q.append((r, c, 0))\n            elif grid[r][c] == 1:\n                fresh += 1\n    minutes = 0\n    while q:\n        r, c, minutes = q.popleft()\n        for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:\n                grid[nr][nc] = 2\n                fresh -= 1\n                q.append((nr, nc, minutes + 1))\n    return minutes if fresh == 0 else -1"
+    }
+  },
+  "analogy": "spoiled fruit spreading through a crate minute by minute"
+}

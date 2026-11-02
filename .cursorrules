@@ -1,0 +1,34 @@
+# VisualDSA conventions
+
+## Product
+- Analogy first, visuals second, code last. Never show code before a hand-trace.
+- One idea per screen. Prefer sentences under 20 words.
+- Indian-everyday analogies where natural (chai stall, tiffin, cricket, railway).
+- AI Mock Interview is Coming Soon. Never call an AI API or require an API key. Use `FEATURE_AI_MOCK=false` and `DisabledProvider`.
+
+## Content
+- Lessons live at `content/<track>/<module>/<slug>.mdx` with Zod-validated frontmatter (`src/lib/content/schemas.ts`).
+- Required frontmatter: slug, track, module, chapter, title, level, minutes, status (`draft`|`ready`), prerequisites, patterns, xp, analogy, tags.
+- Template components: Analogy, Visualizer, Trace, CodeTabs, Complexity, Checkpoint, Problems, Quiz, Recap, InterviewTip.
+- Problems: `content/problems/<id>.json`. Quizzes: `content/quizzes/<id>.json`.
+- Ready lessons must reference existing problem/quiz ids. Drafts may warn.
+- Curriculum source of truth: `docs/CURRICULUM.md`. Generate stubs with `pnpm exec tsx scripts/generate-stubs.ts`.
+- Reference quality bar: Stack (`stack-basics`), Binary Search (`binary-search`), BFS (`bfs-basics`).
+
+## Visualizers
+- Pure engine in `src/lib/visualizers/<type>/engine.ts` → frames. Unit tested.
+- Generic `VisualizerPlayer` for play/pause/step/scrub/keyboard/`aria-live`/pseudocode.
+- Register in `src/components/visualizers/registry.tsx`. Props: `initial`, `ops`, `showPseudocode`, `title`.
+- Respect `prefers-reduced-motion`. Keep controls keyboard accessible.
+
+## App structure
+- Next.js 15 App Router, React 19, TypeScript strict (`noUncheckedIndexedAccess`).
+- Auth: NextAuth v5 + Prisma, scrypt passwords, optional OAuth when env pairs exist.
+- Progress: server actions + Zod. XP/streaks/reviews computed server-side only.
+- Guest progress in localStorage; merge on login without overwriting newer server rows.
+- Protected: `/dashboard`, `/account`, `/profile`. Lessons stay public for SEO.
+
+## Quality bar
+- After each phase: `pnpm lint`, `pnpm typecheck`, `pnpm test`, and e2e when UI flows change.
+- Env via `src/env.ts`. No secrets in client bundles.
+- Prefer small commits per phase. Update `PLAN.md` checklist when a phase lands.
