@@ -1,0 +1,50 @@
+{
+  "id": "conditions-quiz",
+  "title": "Conditions quiz",
+  "lesson": "conditions",
+  "questions": [
+    {
+      "id": "if-means",
+      "prompt": "An if statement is most like…",
+      "options": [
+        "A traffic light choosing stop, wait, or go",
+        "Washing every plate the same way",
+        "A labeled tiffin box",
+        "A Wi-Fi router"
+      ],
+      "answer": 0,
+      "explain": "Conditions pick one path based on what is true right now."
+    },
+    {
+      "id": "both-true",
+      "prompt": "For FizzBuzz lite, which check should you handle carefully first?",
+      "options": [
+        "Divisible by both 3 and 5",
+        "Only even numbers",
+        "Negative numbers only",
+        "Empty strings"
+      ],
+      "answer": 0,
+      "explain": "If you check 3 alone first, 15 becomes Fizz and never reaches FizzBuzz."
+    },
+    {
+      "id": "else",
+      "prompt": "What does else mean?",
+      "options": [
+        "Do this when none of the earlier checks matched",
+        "Always skip the if",
+        "Run the if twice",
+        "Delete the variable"
+      ],
+      "answer": 0,
+      "explain": "else is the backup path when other conditions are false."
+    },
+    {
+      "id": "green-go",
+      "prompt": "Signal is green. What should the program do in our traffic example?",
+      "options": ["stop", "wait", "go", "unknown"],
+      "answer": 2,
+      "explain": "Green maps to go."
+    }
+  ]
+}

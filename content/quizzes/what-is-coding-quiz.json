@@ -1,0 +1,45 @@
+{
+  "id": "what-is-coding-quiz",
+  "title": "What is coding? quiz",
+  "lesson": "what-is-coding",
+  "questions": [
+    {
+      "id": "coding-means",
+      "prompt": "What is coding, in one simple idea?",
+      "options": [
+        "Drawing pretty screens",
+        "Giving a computer clear step-by-step instructions",
+        "Only writing math formulas",
+        "Fixing broken phones"
+      ],
+      "answer": 1,
+      "explain": "Coding is writing exact steps a computer can follow, like a recipe for a literal robot."
+    },
+    {
+      "id": "order-matters",
+      "prompt": "A robot gets: \"pour chai, then boil water\". What goes wrong?",
+      "options": [
+        "Nothing — order never matters",
+        "It pours before the water is ready",
+        "It invents its own better steps",
+        "It skips pouring"
+      ],
+      "answer": 1,
+      "explain": "Computers follow the order you write. Wrong order means wrong results."
+    },
+    {
+      "id": "clear-steps",
+      "prompt": "Which instruction is clearest for a literal robot?",
+      "options": ["Make it nice", "Do the chai thing", "Add two spoons of sugar", "Finish somehow"],
+      "answer": 2,
+      "explain": "Clear steps name exactly what to do. Vague words leave the robot stuck."
+    },
+    {
+      "id": "program-word",
+      "prompt": "A list of instructions the computer runs is called a…",
+      "options": ["program", "wifi", "battery", "screenshot"],
+      "answer": 0,
+      "explain": "A program is the written list of steps."
+    }
+  ]
+}

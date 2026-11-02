@@ -4,61 +4,174 @@ track: foundations
 module: basics
 chapter: "0.2"
 title: "Variables and data types"
-summary: "Draft stub for Variables and data types. Analogy: labeled tiffin boxes."
+summary: "Variables are labeled tiffin boxes that hold values. Types tell you what kind of value is inside."
 level: beginner
 minutes: 12
-status: draft
+status: ready
 prerequisites: [what-is-coding]
 patterns: []
 xp: 40
 analogy: "labeled tiffin boxes"
-tags: [variables]
+tags: [variables, types, memory]
 ---
 
 ## What you will learn
-- The core idea in plain words.
-- How the analogy maps to the structure.
-- One small practice step.
+- What a variable is, using labeled tiffin boxes.
+- Common types: numbers, text, and true/false.
+- How to swap two values without losing either one.
 
 ## The story
-<Analogy title='labeled tiffin boxes'>
-This chapter is being written. The everyday picture is **labeled tiffin boxes**.
-When the full lesson lands, you will meet the idea with a story first, then a visual, then code.
+<Analogy emoji="🍱" title="Labeled tiffin boxes">
+Your tiffin has small boxes. Each box has a **name sticker**.
+One sticker says `roti`. Inside is bread.
+One sticker says `sabzi`. Inside is vegetables.
+You can open `roti` and put something new in. The old food is gone.
+In code, a **variable** is that labeled box.
+The **value** is what sits inside.
+The **type** is the kind of thing inside — number, text, or yes/no.
 </Analogy>
 
+Without labels, you mix up boxes. Without types, you might try to "add" a name to a score by mistake.
+
 ## See it move
-Coming soon.
+Watch memory boxes change. We set values, then swap two boxes using a temp helper.
+
+<Visualizer
+  type="memory-boxes"
+  initial={["a=3", "b=7", "name=Riya"]}
+  ops={["set score 10", "swap a b", "read name"]}
+  showPseudocode
+  title="Memory boxes"
+/>
+
+The temp box is a helper. It holds one value so the swap does not erase anything.
 
 ## Do it by hand
-A hand-trace exercise will live here.
+<Trace
+  title="Trace this"
+  input="a=2, b=5; temp=a; a=b; b=temp"
+  answer="a=5, b=2"
+  answerLabel="What are a and b at the end?"
+  hint="Draw three boxes: a, b, and temp. Update them one line at a time."
+/>
 
 ## Now the code
-Code tabs in five languages will land with the full chapter.
+Here is a tiny program that stores values and swaps two of them.
 
-## How fast is it?
-Complexity notes are coming soon.
+<CodeTabs
+python={`# labeled boxes (variables)
+a = 3
+b = 7
+name = "Riya"
+ready = True          # boolean: yes/no
+
+# swap a and b using a temp box
+temp = a
+a = b
+b = temp
+
+print(a, b, name, ready)  # 7 3 Riya True`}
+javascript={`// labeled boxes (variables)
+let a = 3;
+let b = 7;
+const name = "Riya";
+let ready = true; // boolean: yes/no
+
+// swap a and b using a temp box
+const temp = a;
+a = b;
+b = temp;
+
+console.log(a, b, name, ready); // 7 3 Riya true`}
+java={`public class VariablesDemo {
+    public static void main(String[] args) {
+        int a = 3;
+        int b = 7;
+        String name = "Riya";
+        boolean ready = true; // yes/no
+
+        int temp = a;
+        a = b;
+        b = temp;
+
+        System.out.println(a + " " + b + " " + name + " " + ready);
+    }
+}`}
+cpp={`#include <iostream>
+#include <string>
+
+int main() {
+    int a = 3;
+    int b = 7;
+    std::string name = "Riya";
+    bool ready = true; // yes/no
+
+    int temp = a;
+    a = b;
+    b = temp;
+
+    std::cout << a << " " << b << " " << name << " " << ready << "\\n";
+}`}
+csharp={`using System;
+
+class VariablesDemo
+{
+    static void Main()
+    {
+        int a = 3;
+        int b = 7;
+        string name = "Riya";
+        bool ready = true; // yes/no
+
+        int temp = a;
+        a = b;
+        b = temp;
+
+        Console.WriteLine($"{a} {b} {name} {ready}");
+    }
+}`}
+/>
+
+Different languages spell types differently. The tiffin-box idea stays the same.
+
+## How much work is this?
+<Complexity
+  title="How much work is this?"
+  time="A few assignments — almost instant"
+  space="One box per variable you keep"
+  why="Setting or swapping values touches only those boxes. You are not scanning a huge list yet."
+/>
 
 ## Common mistakes
-- Skipping the analogy and jumping straight to code
-- Memorising steps without tracing a tiny example
+- Using a name before you put anything in the box.
+- Mixing types carelessly, like adding a number to a name.
+- Swapping with `a = b` and then `b = a` — both become the same value. You need temp.
 
 ## Interview angle
 <InterviewTip>
-Interviewers want to hear how you map labeled tiffin boxes to the real structure. Practice saying it out loud.
+Interviewers may ask: "What is a variable?" Keep it simple.
+Say: "A named place in memory that holds a value."
+Then mention type: number, string, or boolean.
+If they ask about swap, show the temp-box steps out loud.
 </InterviewTip>
 
 ## Checkpoint
-A quick check question will appear here.
+<Checkpoint
+  question="a holds 1 and b holds 9. You do a = b, then b = a. What is in both boxes?"
+  options={["a=9, b=1", "a=1, b=9", "a=9, b=9", "a=1, b=1"]}
+  answer={2}
+  explain="After a = b, both are 9. Then b = a still copies 9. You lost the old 1. Use a temp box."
+/>
 
 ## Practice
-Practice problems will be linked when this chapter is ready.
+<Problems ids={["tiffin-label", "swap-two-values"]} />
 
 ## Quiz
-A short quiz will unlock with the full chapter.
+<Quiz id="variables-and-types-quiz" />
 
 ## Recap
-<Recap>
-**Variables and data types** starts from labeled tiffin boxes.
-This draft keeps your place in the roadmap.
-Come back when the status flips to ready.
+<Recap next="conditions" nextTitle="Conditions">
+- A variable is a labeled box that holds a value.
+- Types describe what kind of value is inside.
+- Swap with a temp box so you do not lose a value.
 </Recap>

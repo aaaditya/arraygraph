@@ -1,10 +1,21 @@
 import { GaugeIcon } from "lucide-react";
 
-export function Complexity({ time, space, why }: { time: string; space: string; why?: string }) {
+export function Complexity({
+  time,
+  space,
+  why,
+  title = "How fast is it?",
+}: {
+  time: string;
+  space: string;
+  why?: string;
+  /** Override the heading for beginner chapters ("How much work is this?"). */
+  title?: string;
+}) {
   return (
-    <section aria-label="Complexity" className="bg-card my-6 rounded-xl border p-5">
+    <section aria-label={title} className="bg-card my-6 rounded-xl border p-5">
       <p className="flex items-center gap-2 font-semibold">
-        <GaugeIcon className="text-primary size-4" aria-hidden="true" /> How fast is it?
+        <GaugeIcon className="text-primary size-4" aria-hidden="true" /> {title}
       </p>
       <dl className="mt-3 grid gap-3 sm:grid-cols-2">
         <div className="bg-muted rounded-lg p-3">

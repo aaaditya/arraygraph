@@ -1,0 +1,32 @@
+{
+  "id": "fizzbuzz-lite",
+  "title": "FizzBuzz Lite",
+  "difficulty": "easy",
+  "patterns": ["conditionals"],
+  "statement": "Traffic lights choose an action from a color. Here, choose a word from a number.\nWrite a function that takes an integer n and returns:\n- \"Fizz\" if n is divisible by 3\n- \"Buzz\" if n is divisible by 5\n- \"FizzBuzz\" if n is divisible by both 3 and 5\n- the number as a string otherwise\nExamples: 3 → \"Fizz\", 5 → \"Buzz\", 15 → \"FizzBuzz\", 7 → \"7\".",
+  "hints": [
+    "Check the both-3-and-5 case first, or you may miss it.",
+    "Use remainder: n % 3 == 0 means divisible by 3.",
+    "Return a string in every branch."
+  ],
+  "starterCode": {
+    "python": "def fizzbuzz_lite(n: int) -> str:\n    pass",
+    "javascript": "function fizzbuzzLite(n) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "3", "output": "\"Fizz\"", "hidden": false },
+    { "input": "5", "output": "\"Buzz\"", "hidden": false },
+    { "input": "15", "output": "\"FizzBuzz\"", "hidden": false },
+    { "input": "7", "output": "\"7\"", "hidden": false },
+    { "input": "30", "output": "\"FizzBuzz\"", "hidden": true },
+    { "input": "9", "output": "\"Fizz\"", "hidden": true }
+  ],
+  "solution": {
+    "approach": "If divisible by 15 (or by 3 and 5), return FizzBuzz. Else if by 3, Fizz. Else if by 5, Buzz. Else return str(n).",
+    "complexity": "Fixed tiny work per number — a few checks.",
+    "code": {
+      "python": "def fizzbuzz_lite(n: int) -> str:\n    if n % 15 == 0:\n        return \"FizzBuzz\"\n    if n % 3 == 0:\n        return \"Fizz\"\n    if n % 5 == 0:\n        return \"Buzz\"\n    return str(n)"
+    }
+  },
+  "analogy": "choosing an action from a traffic light color"
+}

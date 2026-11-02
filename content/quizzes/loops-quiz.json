@@ -1,0 +1,45 @@
+{
+  "id": "loops-quiz",
+  "title": "Loops quiz",
+  "lesson": "loops",
+  "questions": [
+    {
+      "id": "loop-means",
+      "prompt": "A loop is most like…",
+      "options": [
+        "Washing each plate with the same washing steps",
+        "Choosing red or green once",
+        "Naming a tiffin box",
+        "Turning off the computer"
+      ],
+      "answer": 0,
+      "explain": "You repeat the same idea for every item until you are done."
+    },
+    {
+      "id": "sum-four",
+      "prompt": "Sum from 1 to 4. What is the total?",
+      "options": ["4", "6", "10", "24"],
+      "answer": 2,
+      "explain": "1+2+3+4 = 10."
+    },
+    {
+      "id": "stop-rule",
+      "prompt": "Why does a loop need a stop rule?",
+      "options": [
+        "So it does not repeat forever",
+        "So variables get longer names",
+        "So the screen stays dark",
+        "So if-statements break"
+      ],
+      "answer": 0,
+      "explain": "Without a stop condition, the loop never finishes."
+    },
+    {
+      "id": "i-bump",
+      "prompt": "In a counting loop, after finishing i = 3 with n = 5, what usually happens next?",
+      "options": ["i becomes 4", "The program deletes i", "n becomes 3", "The loop jumps to 100"],
+      "answer": 0,
+      "explain": "You increase i by 1 and check the stop rule again."
+    }
+  ]
+}

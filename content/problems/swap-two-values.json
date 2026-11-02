@@ -1,0 +1,30 @@
+{
+  "id": "swap-two-values",
+  "title": "Swap Two Values",
+  "difficulty": "easy",
+  "patterns": ["variables"],
+  "statement": "You have two labeled tiffin boxes: a and b.\nWrite a function that takes two values and returns them swapped as a pair (or list of length 2).\nExample: swap(3, 7) → [7, 3].",
+  "hints": [
+    "You need a third helper place — a temp box.",
+    "Save a, copy b into a, then put the saved value into b.",
+    "Return both values after the swap."
+  ],
+  "starterCode": {
+    "python": "def swap(a, b):\n    pass",
+    "javascript": "function swap(a, b) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "3, 7", "output": "[7, 3]", "hidden": false },
+    { "input": "\"idli\", \"dosa\"", "output": "[\"dosa\", \"idli\"]", "hidden": false },
+    { "input": "0, 0", "output": "[0, 0]", "hidden": true },
+    { "input": "-1, 5", "output": "[5, -1]", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Use a temporary variable: temp = a; a = b; b = temp; then return [a, b].",
+    "complexity": "Fixed tiny work — always the same few assignments.",
+    "code": {
+      "python": "def swap(a, b):\n    temp = a\n    a = b\n    b = temp\n    return [a, b]"
+    }
+  },
+  "analogy": "swapping two labeled tiffin boxes"
+}

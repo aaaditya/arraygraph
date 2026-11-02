@@ -4,61 +4,206 @@ track: foundations
 module: basics
 chapter: "0.3"
 title: "Conditions"
-summary: "Draft stub for Conditions. Analogy: traffic signal decisions."
+summary: "Conditions let programs choose a path, like deciding stop, wait, or go at a traffic signal."
 level: beginner
 minutes: 12
-status: draft
+status: ready
 prerequisites: [variables-and-types]
 patterns: []
 xp: 40
 analogy: "traffic signal decisions"
-tags: [conditionals]
+tags: [conditionals, if, else]
 ---
 
 ## What you will learn
-- The core idea in plain words.
-- How the analogy maps to the structure.
-- One small practice step.
+- How `if` / `else` picks one path.
+- How a traffic light maps to clear decisions.
+- A tiny FizzBuzz-style choice based on a number.
 
 ## The story
-<Analogy title='traffic signal decisions'>
-This chapter is being written. The everyday picture is **traffic signal decisions**.
-When the full lesson lands, you will meet the idea with a story first, then a visual, then code.
+<Analogy emoji="🚦" title="Traffic signal decisions">
+At a crossing, you look at the light.
+If it is **red**, you **stop**.
+Else if it is **yellow**, you **wait**.
+Else if it is **green**, you **go**.
+You do not do all three. You pick one path.
+**Conditions** in code work the same way.
+The computer asks a yes/no question, then follows the matching branch.
 </Analogy>
 
+Without conditions, every program would do the same thing every time — like always crossing, even on red.
+
 ## See it move
-Coming soon.
+Press play. Follow the flowchart when the light is green, then try other colors in your mind.
+
+<Visualizer
+  type="flowchart"
+  ops={["green", "red", "yellow"]}
+  showPseudocode
+  title="Traffic flowchart"
+/>
+
+Each color asks a question. Only one action runs.
 
 ## Do it by hand
-A hand-trace exercise will live here.
+<Trace
+  title="Trace this"
+  input="color = yellow"
+  answer="wait"
+  answerLabel="What action should the program take?"
+  hint="Match the color to stop / wait / go. Yellow means wait."
+/>
 
 ## Now the code
-Code tabs in five languages will land with the full chapter.
+Here is the traffic decision, then a small number version called FizzBuzz lite.
 
-## How fast is it?
-Complexity notes are coming soon.
+<CodeTabs
+python={`def traffic_action(color: str) -> str:
+    if color == "red":
+        return "stop"
+    elif color == "yellow":
+        return "wait"
+    elif color == "green":
+        return "go"
+    else:
+        return "unknown"
+
+def fizzbuzz_lite(n: int) -> str:
+    if n % 15 == 0:          # both 3 and 5
+        return "FizzBuzz"
+    if n % 3 == 0:
+        return "Fizz"
+    if n % 5 == 0:
+        return "Buzz"
+    return str(n)
+
+print(traffic_action("green"))  # go
+print(fizzbuzz_lite(15))        # FizzBuzz`}
+javascript={`function trafficAction(color) {
+  if (color === "red") return "stop";
+  if (color === "yellow") return "wait";
+  if (color === "green") return "go";
+  return "unknown";
+}
+
+function fizzbuzzLite(n) {
+  if (n % 15 === 0) return "FizzBuzz"; // both 3 and 5
+  if (n % 3 === 0) return "Fizz";
+  if (n % 5 === 0) return "Buzz";
+  return String(n);
+}
+
+console.log(trafficAction("green")); // go
+console.log(fizzbuzzLite(15)); // FizzBuzz`}
+java={`public class ConditionsDemo {
+    static String trafficAction(String color) {
+        if (color.equals("red")) return "stop";
+        if (color.equals("yellow")) return "wait";
+        if (color.equals("green")) return "go";
+        return "unknown";
+    }
+
+    static String fizzbuzzLite(int n) {
+        if (n % 15 == 0) return "FizzBuzz"; // both 3 and 5
+        if (n % 3 == 0) return "Fizz";
+        if (n % 5 == 0) return "Buzz";
+        return Integer.toString(n);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(trafficAction("green")); // go
+        System.out.println(fizzbuzzLite(15)); // FizzBuzz
+    }
+}`}
+cpp={`#include <iostream>
+#include <string>
+
+std::string trafficAction(const std::string& color) {
+    if (color == "red") return "stop";
+    if (color == "yellow") return "wait";
+    if (color == "green") return "go";
+    return "unknown";
+}
+
+std::string fizzbuzzLite(int n) {
+    if (n % 15 == 0) return "FizzBuzz"; // both 3 and 5
+    if (n % 3 == 0) return "Fizz";
+    if (n % 5 == 0) return "Buzz";
+    return std::to_string(n);
+}
+
+int main() {
+    std::cout << trafficAction("green") << "\\n"; // go
+    std::cout << fizzbuzzLite(15) << "\\n"; // FizzBuzz
+}`}
+csharp={`using System;
+
+class ConditionsDemo
+{
+    static string TrafficAction(string color)
+    {
+        if (color == "red") return "stop";
+        if (color == "yellow") return "wait";
+        if (color == "green") return "go";
+        return "unknown";
+    }
+
+    static string FizzbuzzLite(int n)
+    {
+        if (n % 15 == 0) return "FizzBuzz"; // both 3 and 5
+        if (n % 3 == 0) return "Fizz";
+        if (n % 5 == 0) return "Buzz";
+        return n.ToString();
+    }
+
+    static void Main()
+    {
+        Console.WriteLine(TrafficAction("green")); // go
+        Console.WriteLine(FizzbuzzLite(15)); // FizzBuzz
+    }
+}`}
+/>
+
+Check the "both" case early in FizzBuzz. Otherwise 15 becomes only "Fizz".
+
+## How much work is this?
+<Complexity
+  title="How much work is this?"
+  time="A few yes/no checks"
+  space="Almost none extra"
+  why="You ask a short list of questions and take one path. The work does not grow with a big pile of data yet."
+/>
 
 ## Common mistakes
-- Skipping the analogy and jumping straight to code
-- Memorising steps without tracing a tiny example
+- Forgetting `else` when you need a backup path.
+- Checking divisible-by-3 before divisible-by-both, so 15 never says FizzBuzz.
+- Using `=` (assign) when you meant `==` (compare) in some languages.
 
 ## Interview angle
 <InterviewTip>
-Interviewers want to hear how you map traffic signal decisions to the real structure. Practice saying it out loud.
+Interviewers love tiny decision problems.
+Say the rules out loud before coding: "If red stop, else if yellow wait, else if green go."
+That shows you can turn a story into clear branches.
+For FizzBuzz, mention the both-3-and-5 case first.
 </InterviewTip>
 
 ## Checkpoint
-A quick check question will appear here.
+<Checkpoint
+  question="n = 15 in FizzBuzz lite. What should the function return?"
+  options={["Fizz", "Buzz", "FizzBuzz", "15"]}
+  answer={2}
+  explain="15 is divisible by both 3 and 5, so the answer is FizzBuzz."
+/>
 
 ## Practice
-Practice problems will be linked when this chapter is ready.
+<Problems ids={["traffic-signal", "fizzbuzz-lite"]} />
 
 ## Quiz
-A short quiz will unlock with the full chapter.
+<Quiz id="conditions-quiz" />
 
 ## Recap
-<Recap>
-**Conditions** starts from traffic signal decisions.
-This draft keeps your place in the roadmap.
-Come back when the status flips to ready.
+<Recap next="loops" nextTitle="Loops">
+- Conditions choose one path, like a traffic light.
+- Use if / else so only the matching branch runs.
+- When two rules can both be true, handle that case carefully.
 </Recap>

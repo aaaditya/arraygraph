@@ -1,0 +1,45 @@
+{
+  "id": "variables-and-types-quiz",
+  "title": "Variables and types quiz",
+  "lesson": "variables-and-types",
+  "questions": [
+    {
+      "id": "what-is-variable",
+      "prompt": "A variable is best described as…",
+      "options": [
+        "A labeled box that holds a value",
+        "A random number the computer invents",
+        "A type of loop",
+        "A Wi-Fi password"
+      ],
+      "answer": 0,
+      "explain": "Think of a tiffin box with a name sticker and something inside."
+    },
+    {
+      "id": "types",
+      "prompt": "Which value is a number type?",
+      "options": ["\"12\"", "12", "true", "\"Riya\""],
+      "answer": 1,
+      "explain": "12 without quotes is a number. \"12\" is text that looks like a number."
+    },
+    {
+      "id": "swap-need",
+      "prompt": "To swap two boxes safely, you usually need…",
+      "options": [
+        "A third temp box",
+        "A bigger screen",
+        "To delete both values first",
+        "Two loops"
+      ],
+      "answer": 0,
+      "explain": "Temp holds one value while you move the other, so nothing is lost."
+    },
+    {
+      "id": "overwrite",
+      "prompt": "You set score = 10, then score = 15. What is inside score?",
+      "options": ["10", "15", "25", "Both 10 and 15"],
+      "answer": 1,
+      "explain": "A new value replaces the old one in that labeled box."
+    }
+  ]
+}

@@ -4,61 +4,187 @@ track: foundations
 module: basics
 chapter: "0.1"
 title: "What is coding?"
-summary: "Draft stub for What is coding?. Analogy: giving steps to a literal robot making chai."
+summary: "Coding means giving a computer clear step-by-step instructions, like teaching a very literal robot to make chai."
 level: beginner
 minutes: 12
-status: draft
+status: ready
 prerequisites: []
 patterns: []
 xp: 40
 analogy: "giving steps to a literal robot making chai"
-tags: [foundations]
+tags: [foundations, coding, steps]
 ---
 
 ## What you will learn
-- The core idea in plain words.
-- How the analogy maps to the structure.
-- One small practice step.
+- What coding means in plain words.
+- Why every step must be clear and in order.
+- How a short list of instructions becomes a tiny program.
 
 ## The story
-<Analogy title='giving steps to a literal robot making chai'>
-This chapter is being written. The everyday picture is **giving steps to a literal robot making chai**.
-When the full lesson lands, you will meet the idea with a story first, then a visual, then code.
+<Analogy emoji="☕" title="A robot that makes chai">
+Imagine a helpful robot in your kitchen.
+You say "make chai". The robot freezes. It does not guess.
+You must say each step: boil water, add tea, add milk, pour.
+If you skip "boil water", you get cold brown water.
+If you swap the order, you get a mess.
+**Coding** is writing those exact steps so a computer can follow them.
 </Analogy>
 
+A computer is like that robot. It is fast, but it is not clever about your wishes. It only does what you write.
+
 ## See it move
-Coming soon — planned visualizer: step-runner.
+Press play. Watch the robot walk each chai step in order.
+
+<Visualizer
+  type="step-runner"
+  initial={["Boil water", "Add tea leaves", "Add milk and sugar", "Pour into a cup"]}
+  ops={["run"]}
+  showPseudocode
+  title="Chai step runner"
+/>
+
+Notice: the robot never invents a step. It only follows the list.
 
 ## Do it by hand
-A hand-trace exercise will live here.
+<Trace
+  title="Trace this"
+  input="Steps: open packet, pour poha, add water"
+  answer="open packet → pour poha → add water"
+  answerLabel="Write the three steps joined with → in order"
+  hint="Start at the first instruction. Do not reorder. Copy each step as written."
+/>
 
 ## Now the code
-Code tabs in five languages will land with the full chapter.
+Here is the same idea as a tiny program. It stores the steps, then prints them one by one.
 
-## How fast is it?
-Complexity notes are coming soon.
+<CodeTabs
+python={`def make_chai():
+    steps = [
+        "boil water",
+        "add tea leaves",
+        "add milk and sugar",
+        "pour into cup",
+    ]
+    for step in steps:
+        print(step)   # do this step exactly
+
+make_chai()`}
+javascript={`function makeChai() {
+  const steps = [
+    "boil water",
+    "add tea leaves",
+    "add milk and sugar",
+    "pour into cup",
+  ];
+  for (const step of steps) {
+    console.log(step); // do this step exactly
+  }
+}
+
+makeChai();`}
+java={`public class MakeChai {
+    static void makeChai() {
+        String[] steps = {
+            "boil water",
+            "add tea leaves",
+            "add milk and sugar",
+            "pour into cup"
+        };
+        for (String step : steps) {
+            System.out.println(step); // do this step exactly
+        }
+    }
+
+    public static void main(String[] args) {
+        makeChai();
+    }
+}`}
+cpp={`#include <iostream>
+#include <string>
+#include <vector>
+
+void makeChai() {
+    std::vector<std::string> steps = {
+        "boil water",
+        "add tea leaves",
+        "add milk and sugar",
+        "pour into cup"
+    };
+    for (const auto& step : steps) {
+        std::cout << step << "\\n"; // do this step exactly
+    }
+}
+
+int main() {
+    makeChai();
+}`}
+csharp={`using System;
+
+class MakeChai
+{
+    static void Make()
+    {
+        string[] steps = {
+            "boil water",
+            "add tea leaves",
+            "add milk and sugar",
+            "pour into cup"
+        };
+        foreach (string step in steps)
+        {
+            Console.WriteLine(step); // do this step exactly
+        }
+    }
+
+    static void Main() => Make();
+}`}
+/>
+
+Different languages look a bit different. The idea is the same: a list of clear steps, run in order.
+
+## How much work is this?
+<Complexity
+  title="How much work is this?"
+  time="One pass over your list of steps"
+  space="Room to store the step list"
+  why="If you write 4 steps, the computer does 4 things. Longer recipes take a little longer."
+/>
 
 ## Common mistakes
-- Skipping the analogy and jumping straight to code
-- Memorising steps without tracing a tiny example
+- Writing vague steps like "make it tasty". The robot cannot taste.
+- Getting the order wrong. Boil before you pour.
+- Assuming the computer "knows what you meant". It only knows what you wrote.
 
 ## Interview angle
 <InterviewTip>
-Interviewers want to hear how you map giving steps to a literal robot making chai to the real structure. Practice saying it out loud.
+Interviewers often start with: "Explain this like I am new."
+Practice saying: "A program is a list of exact steps for a computer."
+Then give a short real example — chai, a rickshaw route, or packing a school bag.
+Clear talk beats fancy words.
 </InterviewTip>
 
 ## Checkpoint
-A quick check question will appear here.
+<Checkpoint
+  question="You tell a robot: pour tea, then boil water. What happens?"
+  options={[
+    "Perfect hot chai",
+    "It pours first, so the drink is wrong",
+    "It ignores you and invents better steps",
+    "It boils twice to be safe"
+  ]}
+  answer={1}
+  explain="The robot follows order literally. Pouring before boiling gives a bad result."
+/>
 
 ## Practice
-Practice problems will be linked when this chapter is ready.
+<Problems ids={["order-chai", "sandwich-steps"]} />
 
 ## Quiz
-A short quiz will unlock with the full chapter.
+<Quiz id="what-is-coding-quiz" />
 
 ## Recap
-<Recap>
-**What is coding?** starts from giving steps to a literal robot making chai.
-This draft keeps your place in the roadmap.
-Come back when the status flips to ready.
+<Recap next="variables-and-types" nextTitle="Variables and data types">
+- Coding means writing clear steps a computer can follow.
+- Order matters. Skip or swap a step and the result breaks.
+- A short list of instructions is already a tiny program.
 </Recap>

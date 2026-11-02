@@ -1,0 +1,31 @@
+{
+  "id": "order-chai",
+  "title": "Order Chai",
+  "difficulty": "easy",
+  "patterns": ["foundations"],
+  "statement": "Coding is giving exact steps. Write a function that returns the four chai steps as a list, in this exact order:\n1. boil water\n2. add tea leaves\n3. add milk and sugar\n4. pour into cup\nDo not change the wording or the order.",
+  "hints": [
+    "Return a list (or array) of four strings.",
+    "Copy the wording exactly — robots are picky.",
+    "Order matters: boiling comes before pouring."
+  ],
+  "starterCode": {
+    "python": "def chai_steps() -> list[str]:\n    pass",
+    "javascript": "function chaiSteps() {\n  // your code\n}"
+  },
+  "tests": [
+    {
+      "input": "",
+      "output": "[\"boil water\", \"add tea leaves\", \"add milk and sugar\", \"pour into cup\"]",
+      "hidden": false
+    }
+  ],
+  "solution": {
+    "approach": "Return the four step strings in a list, matching the statement word for word.",
+    "complexity": "Fixed tiny work — always four steps.",
+    "code": {
+      "python": "def chai_steps() -> list[str]:\n    return [\n        \"boil water\",\n        \"add tea leaves\",\n        \"add milk and sugar\",\n        \"pour into cup\",\n    ]"
+    }
+  },
+  "analogy": "teaching a robot to make chai"
+}

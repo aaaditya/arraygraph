@@ -1,0 +1,38 @@
+{
+  "id": "sandwich-steps",
+  "title": "Sandwich Steps",
+  "difficulty": "easy",
+  "patterns": ["foundations"],
+  "statement": "A very literal robot makes a sandwich only if you give clear steps in order.\nWrite a function that takes a list of step strings and returns them joined with \" -> \" so the robot can read the plan.\nExample: [\"take bread\", \"add chutney\", \"close\"] → \"take bread -> add chutney -> close\".\nIf the list is empty, return an empty string.",
+  "hints": [
+    "Walk the list from start to end. Do not skip or reorder.",
+    "Join the steps with the exact separator \" -> \".",
+    "An empty list means there is nothing to join."
+  ],
+  "starterCode": {
+    "python": "def sandwich_plan(steps: list[str]) -> str:\n    pass",
+    "javascript": "function sandwichPlan(steps) {\n  // your code\n}"
+  },
+  "tests": [
+    {
+      "input": "[\"take bread\", \"add chutney\", \"close\"]",
+      "output": "\"take bread -> add chutney -> close\"",
+      "hidden": false
+    },
+    { "input": "[\"boil water\"]", "output": "\"boil water\"", "hidden": false },
+    { "input": "[]", "output": "\"\"", "hidden": false },
+    {
+      "input": "[\"open\", \"fill\", \"fold\", \"eat\"]",
+      "output": "\"open -> fill -> fold -> eat\"",
+      "hidden": true
+    }
+  ],
+  "solution": {
+    "approach": "Join every step string with \" -> \". Most languages have a built-in join for this.",
+    "complexity": "A few steps for a short list — grow with the number of instructions.",
+    "code": {
+      "python": "def sandwich_plan(steps: list[str]) -> str:\n    return \" -> \".join(steps)"
+    }
+  },
+  "analogy": "writing a sandwich recipe for a literal robot"
+}

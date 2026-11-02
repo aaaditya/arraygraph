@@ -1,0 +1,29 @@
+{
+  "id": "tiffin-label",
+  "title": "Tiffin Label",
+  "difficulty": "easy",
+  "patterns": ["variables"],
+  "statement": "A variable is a labeled box. Write a function that takes a label (string) and a value, and returns a single string in the form \"label=value\".\nExample: label_box(\"age\", 12) → \"age=12\".",
+  "hints": [
+    "Convert the value to text if needed.",
+    "Join the label, an equals sign, and the value.",
+    "Do not add spaces around =."
+  ],
+  "starterCode": {
+    "python": "def label_box(label: str, value) -> str:\n    pass",
+    "javascript": "function labelBox(label, value) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "\"age\", 12", "output": "\"age=12\"", "hidden": false },
+    { "input": "\"name\", \"Riya\"", "output": "\"name=Riya\"", "hidden": false },
+    { "input": "\"ready\", true", "output": "\"ready=true\"", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Return the label, then '=', then the value converted to a string.",
+    "complexity": "Fixed tiny work.",
+    "code": {
+      "python": "def label_box(label: str, value) -> str:\n    return f\"{label}={value}\""
+    }
+  },
+  "analogy": "writing the sticker on a tiffin box"
+}

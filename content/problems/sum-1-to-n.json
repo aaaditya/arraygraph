@@ -1,0 +1,30 @@
+{
+  "id": "sum-1-to-n",
+  "title": "Sum 1 to N",
+  "difficulty": "easy",
+  "patterns": ["loops"],
+  "statement": "Write a function that takes a positive integer n and returns the sum of every integer from 1 to n inclusive.\nExample: sum_to_n(4) → 10 because 1+2+3+4 = 10.",
+  "hints": [
+    "Start a total at 0.",
+    "Loop i from 1 to n and add i to total each time.",
+    "Return total after the loop ends."
+  ],
+  "starterCode": {
+    "python": "def sum_to_n(n: int) -> int:\n    pass",
+    "javascript": "function sumToN(n) {\n  // your code\n}"
+  },
+  "tests": [
+    { "input": "1", "output": "1", "hidden": false },
+    { "input": "4", "output": "10", "hidden": false },
+    { "input": "10", "output": "55", "hidden": false },
+    { "input": "7", "output": "28", "hidden": true }
+  ],
+  "solution": {
+    "approach": "Initialize total = 0. For i from 1 to n, add i. Return total. (You can also use the formula n*(n+1)/2 later.)",
+    "complexity": "About n additions — grows gently with n.",
+    "code": {
+      "python": "def sum_to_n(n: int) -> int:\n    total = 0\n    for i in range(1, n + 1):\n        total += i\n    return total"
+    }
+  },
+  "analogy": "washing plates one by one until you finish the stack"
+}
