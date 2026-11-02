@@ -15,28 +15,33 @@ enum Role {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  passwordHash  String?
-  username      String?   @unique
-  bio           String?   @db.VarChar(280)
-  role          Role      @default(LEARNER)
-  dailyGoalXp   Int       @default(30)
-  timezone      String    @default("Asia/Kolkata")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  image          String?
+  passwordHash   String?
+  username       String?   @unique
+  bio            String?   @db.VarChar(280)
+  role           Role      @default(LEARNER)
+  dailyGoalXp    Int       @default(30)
+  timezone       String    @default("Asia/Kolkata")
+  /// Bumped on "sign out everywhere" and password change so old JWTs stop refreshing.
+  sessionVersion Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   accounts           Account[]
   sessions           Session[]
+  authTokens         AuthToken[]
   lessonProgress     LessonProgress[]
   xpEvents           XpEvent[]
   dailyActivity      DailyActivity[]
   streak             Streak?
   reviewItems        ReviewItem[]
-  quizAttempts       QuizAttempt[]
+  quizResults        QuizResult[]
+  problemAttempts    ProblemAttempt[]
+  codeDrafts         CodeDraft[]
   problemSubmissions ProblemSubmission[]
   badges             UserBadge[]
   designBoards       DesignBoard[]
@@ -81,24 +86,54 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+enum AuthTokenPurpose {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+}
+
+/// Hashed one-time tokens for email verification and password reset.
+model AuthToken {
+  id         String           @id @default(cuid())
+  userId     String?
+  identifier String
+  tokenHash  String           @unique
+  purpose    AuthTokenPurpose
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime         @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([identifier, purpose])
+}
+
 // ─── Learning progress ──────────────────────────────────────────────────────
 
 enum LessonStatus {
-  STARTED
+  IN_PROGRESS
   COMPLETED
 }
 
 model LessonProgress {
-  id          String       @id @default(cuid())
-  userId      String
-  lessonSlug  String
-  status      LessonStatus @default(STARTED)
-  startedAt   DateTime     @default(now())
-  completedAt DateTime?
+  id              String       @id @default(cuid())
+  userId          String
+  lessonSlug      String
+  status          LessonStatus @default(IN_PROGRESS)
+  /// Heading id / TOC slug the learner last viewed.
+  lastSection     String?
+  scrollPosition  Int          @default(0)
+  /// Opaque JSON snapshot for embedded visualizers (step index, etc.).
+  visualizerState Json?
+  /// Quiz answer drafts keyed by question id.
+  quizState       Json?
+  startedAt       DateTime     @default(now())
+  completedAt     DateTime?
+  updatedAt       DateTime     @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonSlug])
+  @@index([userId, updatedAt])
 }
 
 enum XpReason {
@@ -154,7 +189,7 @@ enum ReviewItemType {
   PROBLEM
 }
 
-/// Spaced repetition. stage 0..3 maps to re-review after 1, 3, 7 and 21 days.
+/// Spaced repetition schedule (stage 0..3 → 1, 3, 7, 21 days).
 model ReviewItem {
   id             String         @id @default(cuid())
   userId         String
@@ -171,7 +206,8 @@ model ReviewItem {
   @@index([userId, dueAt])
 }
 
-model QuizAttempt {
+/// Latest quiz attempt / result for a quiz.
+model QuizResult {
   id        String   @id @default(cuid())
   userId    String
   quizId    String
@@ -179,12 +215,49 @@ model QuizAttempt {
   total     Int
   answers   Json
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId, quizId])
+  @@unique([userId, quizId])
+  @@index([userId, updatedAt])
 }
 
+/// Aggregate problem practice state (attempts + best result).
+model ProblemAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId String
+  language  String
+  code      String   @db.Text
+  passed    Boolean  @default(false)
+  attempts  Int      @default(0)
+  bestTime  Int?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId, language])
+  @@index([userId, updatedAt])
+}
+
+/// Autosaved code draft per problem and language (may differ from last attempt).
+model CodeDraft {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId String
+  language  String
+  code      String   @db.Text
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId, language])
+}
+
+/// Immutable submission history (kept for later pattern practice).
 model ProblemSubmission {
   id          String   @id @default(cuid())
   userId      String
